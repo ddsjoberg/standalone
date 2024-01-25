@@ -9,7 +9,7 @@ copy_standalone_script(script, destdir = "./R")
 \arguments{
 \item{script}{(\code{string})\cr
 named of the script to copy. The names follow the pattern \verb{<pkgname>-<script_name>}.
-Must be one of 'standalone-checks'.}
+Must be one of 'standalone-checks', 'standalone-stringr', 'standalone-forcats', 'rlang-purrr'.}
 
 \item{destdir}{directory where the script will be saved. Default is \code{"./R"}}
 }
