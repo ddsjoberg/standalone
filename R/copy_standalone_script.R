@@ -1,0 +1,34 @@
+#' Copy Standalone Script
+#'
+#' Copy a standalone script from within this package or from the rlang
+#' package into your local package.
+#'
+#' @param script (`string`)\cr
+#'   named of the script to copy. The names follow the pattern `<pkgname>-<script_name>`.
+#'   Must be one of `r shQuote(names(standalone::lst_scripts))`.
+#' @param destdir directory where the script will be saved. Default is `"./R"`
+#'
+#' @return NULL
+#' @export
+#'
+#' @examplesIf FALSE
+#' copy_standalone_script("standalone-checks")
+copy_standalone_script <- function(script, destdir = "./R") {
+  # get script alias
+  script_name <- rlang::arg_match(script, values = names(standalone::lst_scripts))
+  destdir_and_filename <- fs::path(destdir, basename(standalone::lst_scripts[[script_name]]))
+
+  # check if file already exists
+  if (fs::file_exists(destdir_and_filename)) {
+    cli::cli_abort("File {.path {destdir_and_filename}} already exists.")
+  }
+  if (!fs::dir_exists(dirname(destdir))) {
+    cli::cli_abort("Destination directory {.path {destdir}} does not exist.")
+  }
+
+  # read script from GH
+  chr_script <- readr::read_lines(file = standalone::lst_scripts[[script_name]])
+
+  # write script to local destination
+  readr::write_lines(chr_script, file = destdir_and_filename)
+}
