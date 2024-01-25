@@ -7,8 +7,7 @@
 
 The goal of standalone is to provide standalone scripts that are useful for the
 development of R packages. While you need to install this package to use the
-interface, the standalone package does not need to be a dependency of the 
-package you are developing.
+interface to copy scripts into your package, the standalone package does not need to be a dependency of the package you are developing.
 
 ## Installation
 

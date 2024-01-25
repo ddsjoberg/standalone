@@ -6,7 +6,16 @@
 #' @param script (`string`)\cr
 #'   named of the script to copy. The names follow the pattern `<pkgname>-<script_name>`.
 #'   Must be one of `r shQuote(names(standalone::lst_scripts))`.
+#'   See below for details.
 #' @param destdir directory where the script will be saved. Default is `"./R"`
+#'
+#' @details
+#' These are the standalone scripts available and their location.
+#'
+#' ```{r echo=FALSE}
+#' standalone::lst_scripts |>
+#'   purrr::iwalk(~cat(.y,": ", .x, "\n", sep = ""))
+#' ```
 #'
 #' @return NULL
 #' @export

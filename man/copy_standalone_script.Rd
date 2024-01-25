@@ -9,13 +9,23 @@ copy_standalone_script(script, destdir = "./R")
 \arguments{
 \item{script}{(\code{string})\cr
 named of the script to copy. The names follow the pattern \verb{<pkgname>-<script_name>}.
-Must be one of 'standalone-checks', 'standalone-stringr', 'standalone-forcats', 'rlang-purrr'.}
+Must be one of 'standalone-checks', 'standalone-stringr', 'standalone-forcats', 'rlang-purrr'.
+See below for details.}
 
 \item{destdir}{directory where the script will be saved. Default is \code{"./R"}}
 }
 \description{
 Copy a standalone script from within this package or from the rlang
 package into your local package.
+}
+\details{
+These are the standalone scripts available and their location.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{#> standalone-checks: https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-checks.R
+#> standalone-stringr: https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-stringr.R
+#> standalone-forcats: https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-forcats.R
+#> rlang-purrr: https://raw.githubusercontent.com/r-lib/rlang/main/R/standalone-purrr.R
+}\if{html}{\out{</div>}}
 }
 \examples{
 \dontshow{if (FALSE) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
