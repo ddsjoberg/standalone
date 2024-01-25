@@ -27,16 +27,21 @@ copy_standalone_script <- function(script, destdir = "./R") {
   script_name <- rlang::arg_match(script, values = names(standalone::lst_scripts))
   destdir_and_filename <- fs::path(destdir, basename(standalone::lst_scripts[[script_name]]))
 
-  # check if file already exists
-  if (fs::file_exists(destdir_and_filename)) {
-    cli::cli_abort("File {.path {destdir_and_filename}} already exists.")
-  }
+  # read script from GH
+  chr_script <- readr::read_lines(file = standalone::lst_scripts[[script_name]])
+
   if (!fs::dir_exists(dirname(destdir))) {
     cli::cli_abort("Destination directory {.path {destdir}} does not exist.")
   }
 
-  # read script from GH
-  chr_script <- readr::read_lines(file = standalone::lst_scripts[[script_name]])
+  # check if file already exists
+  if (fs::file_exists(destdir_and_filename)) {
+    cli::cli_text("File {.path {destdir_and_filename}} already exists. Would you like to replace it?")
+    if (interactive())
+      response <- utils::menu(choices = c("Yes", "No"))
+    if (response == 2L || !interactive())
+      return(invisible())
+  }
 
   # write script to local destination
   readr::write_lines(chr_script, file = destdir_and_filename)

@@ -5,7 +5,7 @@
 \alias{lst_scripts}
 \title{Standalone Script}
 \format{
-An object of class \code{list} of length 4.
+An object of class \code{list} of length 15.
 }
 \usage{
 lst_scripts
