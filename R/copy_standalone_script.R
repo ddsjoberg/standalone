@@ -37,10 +37,12 @@ copy_standalone_script <- function(script, destdir = "./R") {
   # check if file already exists
   if (fs::file_exists(destdir_and_filename)) {
     cli::cli_text("File {.path {destdir_and_filename}} already exists. Would you like to replace it?")
-    if (interactive())
+    if (interactive()) {
       response <- utils::menu(choices = c("Yes", "No"))
-    if (response == 2L || !interactive())
+    }
+    if (response == 2L || !interactive()) {
       return(invisible())
+    }
   }
 
   # write script to local destination
