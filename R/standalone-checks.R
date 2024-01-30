@@ -4,7 +4,7 @@
 # file: standalone-checks.R
 # last-updated: 2024-01-24
 # license: https://unlicense.org
-# imports: rlang, cli
+# imports: [rlang, cli]
 # ---
 #
 # This file provides a minimal functions to check argument values and types
