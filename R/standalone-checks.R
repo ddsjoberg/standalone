@@ -12,7 +12,7 @@
 #
 # ## Changelog
 # nocov start
-
+# styler: off
 
 #' Check Class
 #'
@@ -178,3 +178,4 @@ check_binary <- function(x, arg_name = rlang::caller_arg(x), call = parent.frame
 }
 
 # nocov end
+# styler: on

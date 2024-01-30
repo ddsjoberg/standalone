@@ -13,6 +13,7 @@
 # ## Changelog
 #
 # nocov start
+# styler: off
 
 fct_infreq <- function(f, ordered = NA) {
   # reorder by frequency
@@ -32,3 +33,4 @@ fct_inorder <- function(f, ordered = NA) {
 }
 
 # nocov end
+# styler: on

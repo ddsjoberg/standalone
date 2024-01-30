@@ -13,6 +13,7 @@
 # ## Changelog
 #
 # nocov start
+# styler: off
 
 str_trim <- function(string, side = c("both", "left", "right")) {
   side <- rlang::arg_match(side)
@@ -36,9 +37,12 @@ str_extract <- function(string, pattern) {
   )
 }
 
-# nocov end
-
-
 str_detect <- function(string, pattern) {
   grepl(pattern = pattern, x = string)
 }
+
+# nocov end
+# styler: on
+
+
+
