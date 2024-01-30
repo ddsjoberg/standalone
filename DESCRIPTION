@@ -11,11 +11,9 @@ Depends:
     R (>= 2.10)
 Imports: 
     cli,
-    fs,
-    readr,
     rlang
 Suggests:
-    purrr
+    usethis
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
