@@ -84,7 +84,12 @@ check_not_missing <- function(x,
 #' @keywords internal
 #' @noRd
 check_length <- function(x, length,
-                         message = "The {.arg {arg_name}} argument must be length {.val {length}}.",
+                         message =
+                           ifelse(
+                             allow_empty,
+                             "The {.arg {arg_name}} argument must be length {.val {length}} or empty.",
+                             "The {.arg {arg_name}} argument must be length {.val {length}}."
+                           ),
                          allow_empty = FALSE,
                          arg_name = rlang::caller_arg(x), call = parent.frame()) {
   # if empty, skip test
@@ -108,7 +113,12 @@ check_length <- function(x, length,
 #' @keywords internal
 #' @noRd
 check_scalar <- function(x,
-                         message = "The {.arg {arg_name}} argument must be length {.val {length}}.",
+                         message =
+                           ifelse(
+                             allow_empty,
+                             "The {.arg {arg_name}} argument must be length {.val {length}} or empty.",
+                             "The {.arg {arg_name}} argument must be length {.val {length}}."
+                           ),
                          allow_empty = FALSE,
                          arg_name = rlang::caller_arg(x), call = parent.frame()) {
   check_length(
