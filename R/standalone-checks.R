@@ -1,4 +1,3 @@
-# DO NOT MODIFY THIS FILE. INSTEAD MODIFY THE VERSION IN https://github.com/ddsjoberg/standalone/tree/main/R
 # ---
 # repo: ddsjoberg/standalone
 # file: standalone-checks.R
@@ -21,8 +20,8 @@
 #'   Passed to `inherits(what=class)`
 #' @param x `(object)`\cr
 #'   object to check
-#' @param allow_null (`logical(1)`)\cr
-#'   Logical indicating whether a NULL value will pass the test.
+#' @param allow_empty (`logical(1)`)\cr
+#'   Logical indicating whether an empty value will pass the test.
 #'   Default is `FALSE`
 #' @param arg_name (`string`)\cr
 #'   string indicating the label/symbol of the object being checked.
@@ -30,15 +29,18 @@
 #' @inheritParams cli::cli_abort
 #' @keywords internal
 #' @noRd
-check_class <- function(x, class, allow_null = FALSE,
-                        arg_name = rlang::caller_arg(x), call = parent.frame()) {
-  # include NULL class as acceptable if allow_null is TRUE
-  if (isTRUE(allow_null) && is.null(x)) {
+check_class <- function(x, class, allow_empty = FALSE,
+                        message = "The {.arg {arg_name}} argument must be class
+                                   {.cls {class}}, not {.obj_type_friendly {x}}.",
+                        arg_name = rlang::caller_arg(x),
+                        call = parent.frame()) {
+  # if empty, skip test
+  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
     return(invisible())
   }
 
   if (!inherits(x, class)) {
-    cli::cli_abort("The {.arg {arg_name}} argument must be class {.cls {class}}.", call = call)
+    cli::cli_abort(message, call = call)
   }
   invisible()
 }
@@ -48,11 +50,13 @@ check_class <- function(x, class, allow_null = FALSE,
 #' @inheritParams check_class
 #' @keywords internal
 #' @noRd
-check_class_data_frame <- function(x, allow_null = FALSE,
+check_class_data_frame <- function(x, allow_empty = FALSE,
+                                   message = "The {.arg {arg_name}} argument must be class
+                                              {.cls {class}}, not {.obj_type_friendly {x}}.",
                                    arg_name = rlang::caller_arg(x), call = parent.frame()) {
   check_class(
-    x = x, class = "data.frame", allow_null = allow_null,
-    arg_name = arg_name, call = call
+    x = x, class = "data.frame", allow_empty = allow_empty,
+    message = message, arg_name = arg_name, call = call
   )
 }
 
@@ -61,9 +65,11 @@ check_class_data_frame <- function(x, allow_null = FALSE,
 #' @inheritParams check_class
 #' @keywords internal
 #' @noRd
-check_not_missing <- function(x, arg_name = rlang::caller_arg(x), call = parent.frame()) {
+check_not_missing <- function(x,
+                              message = "The {.arg {arg_name}} argument cannot be missing.",
+                              arg_name = rlang::caller_arg(x), call = parent.frame()) {
   if (missing(x)) {
-    cli::cli_abort("The {.arg {arg_name}} argument cannot be missing.", call = call)
+    cli::cli_abort(message, call = call)
   }
   invisible()
 }
@@ -77,10 +83,20 @@ check_not_missing <- function(x, arg_name = rlang::caller_arg(x), call = parent.
 #' @inheritParams check_class
 #' @keywords internal
 #' @noRd
-check_length <- function(x, length, arg_name = rlang::caller_arg(x), call = parent.frame()) {
-  if (length(x) != length) {
-    cli::cli_abort("The {.arg {arg_name}} argument must be length {.val {length}}.", call = call)
+check_length <- function(x, length,
+                         message = "The {.arg {arg_name}} argument must be length {.val {length}}.",
+                         allow_empty = FALSE,
+                         arg_name = rlang::caller_arg(x), call = parent.frame()) {
+  # if empty, skip test
+  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
+    return(invisible())
   }
+
+  # check length
+  if (length(x) != length) {
+    cli::cli_abort(message, call = call)
+  }
+
   invisible()
 }
 
@@ -91,8 +107,14 @@ check_length <- function(x, length, arg_name = rlang::caller_arg(x), call = pare
 #' @inheritParams check_class
 #' @keywords internal
 #' @noRd
-check_scalar <- function(x, arg_name = rlang::caller_arg(x), call = parent.frame()) {
-  check_length(x = x, length = 1L, arg_name = arg_name, call = call)
+check_scalar <- function(x,
+                         message = "The {.arg {arg_name}} argument must be length {.val {length}}.",
+                         allow_empty = FALSE,
+                         arg_name = rlang::caller_arg(x), call = parent.frame()) {
+  check_length(
+    x = x, length = 1L, message = message,
+    allow_empty = allow_empty, arg_name = arg_name, call = call
+  )
 }
 
 #' Check Range
@@ -110,16 +132,24 @@ check_scalar <- function(x, arg_name = rlang::caller_arg(x), call = parent.frame
 check_range <- function(x,
                         range,
                         include_bounds = c(FALSE, FALSE),
-                        arg_name = rlang::caller_arg(x),
+                        message =
+                          paste0(
+                          "The {.arg {arg_name}} argument must be in the interval
+                           {.code {ifelse(include_bounds[1], '[', '(')}{range[1]},
+                           {range[2]}{ifelse(include_bounds[2], ']', ')')}}",
+                          ifelse(scalar, " and length {.val {1}}", ""),
+                          "."),
                         scalar = FALSE,
-                        msg = paste(
-                          "The {.arg {arg_name}} argument must be in the interval",
-                          "{.code {ifelse(include_bounds[1], '[', '(')}{range[1]},",
-                          "{range[2]}{ifelse(include_bounds[2], ']', ')')}}."
-                        ),
+                        allow_empty = FALSE,
+                        arg_name = rlang::caller_arg(x),
                         call = parent.frame()) {
+  # if empty, skip test
+  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
+    return(invisible())
+  }
+
   if (isTRUE(scalar)) {
-    check_scalar(x, arg_name = arg_name)
+    check_scalar(x, message = message, arg_name = arg_name, call = call)
   }
 
   print_error <- FALSE
@@ -146,7 +176,7 @@ check_range <- function(x,
 
   # print error
   if (print_error) {
-    cli::cli_abort(msg, call = call)
+    cli::cli_abort(message, call = call)
   }
 
   invisible()
@@ -165,13 +195,24 @@ check_range <- function(x,
 #' @return invisible
 #' @keywords internal
 #' @noRd
-check_binary <- function(x, arg_name = rlang::caller_arg(x), call = parent.frame()) {
+check_binary <- function(x,
+                         message =
+                           "Expecting {.arg {arg_name}} to be either {.cls logical}
+                            or {.cls {c('numeric', 'integer')}} coded as {.val {c(0, 1)}}.",
+                         allow_empty = FALSE,
+                         arg_name = rlang::caller_arg(x), call = parent.frame()) {
+  # if empty, skip test
+  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
+    return(invisible())
+  }
+
+  # first check x is either logical or numeric
+  check_class(x, class = c("logical", "numeric", "integer"),
+              arg_name = arg_name, message = message, call = call)
+
+  # if "numeric" or "integer", it must be coded as 0, 1
   if (!is.logical(x) && !(rlang::is_integerish(x) && rlang::is_empty(setdiff(x, c(0, 1, NA))))) {
-    paste(
-      "Expecting column {.arg {arg_name}} to be either {.cls logical}",
-      "or {.cls {c('numeric', 'integer')}} coded as {.val {c(0, 1)}}."
-    ) |>
-      cli::cli_abort(call = call)
+    cli::cli_abort(message, call = call)
   }
 
   invisible()
