@@ -2,7 +2,7 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-02-07T04:45Z
+last_built: 2024-02-07T05:05Z
 urls:
   reference: http://www.danieldsjoberg.com/standalone/reference
   article: http://www.danieldsjoberg.com/standalone/articles
