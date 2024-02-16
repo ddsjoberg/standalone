@@ -52,7 +52,7 @@ check_class <- function(x,
   }
 
   if (!inherits(x, cls)) {
-    cli::cli_abort(message, class = class, call = call)
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call)
   }
   invisible(x)
 }
@@ -178,7 +178,7 @@ check_not_missing <- function(x,
                               class = "check_not_missing",
                               call = parent.frame()) {
   if (missing(x)) {
-    cli::cli_abort(message, class = class, call = call)
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call)
   }
 
   # can't return 'x' because it may be an unevaluable obj, eg a bare tidyselect
@@ -210,7 +210,7 @@ check_length <- function(x, length,
 
   # check length
   if (length(x) != length) {
-    cli::cli_abort(message, class = class, call = call)
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call)
   }
 
   invisible(x)
@@ -290,7 +290,7 @@ check_range <- function(x,
 
   # print error
   if (print_error) {
-    cli::cli_abort(message, class = class, call = call)
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call)
   }
 
   invisible(x)
@@ -363,7 +363,7 @@ check_binary <- function(x,
 
   # if "numeric" or "integer", it must be coded as 0, 1
   if (!is.logical(x) && !(rlang::is_integerish(x) && rlang::is_empty(setdiff(x, c(0, 1, NA))))) {
-    cli::cli_abort(message, class = class, call = call)
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call)
   }
 
   invisible(x)
