@@ -181,7 +181,8 @@ check_not_missing <- function(x,
     cli::cli_abort(message, class = class, call = call)
   }
 
-  invisible(x)
+  # can't return 'x' because it may be an unevaluable obj, eg a bare tidyselect
+  invisible()
 }
 
 #' Check Length
