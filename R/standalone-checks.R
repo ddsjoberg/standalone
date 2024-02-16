@@ -36,13 +36,13 @@ check_class <- function(x, class, allow_empty = FALSE,
                         call = parent.frame()) {
   # if empty, skip test
   if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible())
+    return(invisible(x))
   }
 
   if (!inherits(x, class)) {
     cli::cli_abort(message, call = call)
   }
-  invisible()
+  invisible(x)
 }
 
 #' Check Class Data Frame
@@ -130,7 +130,7 @@ check_not_missing <- function(x,
   if (missing(x)) {
     cli::cli_abort(message, call = call)
   }
-  invisible()
+  invisible(x)
 }
 
 #' Check Length
@@ -153,7 +153,7 @@ check_length <- function(x, length,
                          arg_name = rlang::caller_arg(x), call = parent.frame()) {
   # if empty, skip test
   if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible())
+    return(invisible(x))
   }
 
   # check length
@@ -161,7 +161,7 @@ check_length <- function(x, length,
     cli::cli_abort(message, call = call)
   }
 
-  invisible()
+  invisible(x)
 }
 
 #' Check is Scalar
@@ -214,7 +214,7 @@ check_range <- function(x,
                         call = parent.frame()) {
   # if empty, skip test
   if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible())
+    return(invisible(x))
   }
 
   if (isTRUE(scalar)) {
@@ -248,7 +248,7 @@ check_range <- function(x,
     cli::cli_abort(message, call = call)
   }
 
-  invisible()
+  invisible(x)
 }
 
 
@@ -272,7 +272,7 @@ check_binary <- function(x,
                          arg_name = rlang::caller_arg(x), call = parent.frame()) {
   # if empty, skip test
   if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible())
+    return(invisible(x))
   }
 
   # first check x is either logical or numeric
@@ -284,7 +284,7 @@ check_binary <- function(x,
     cli::cli_abort(message, call = call)
   }
 
-  invisible()
+  invisible(x)
 }
 
 # nocov end
