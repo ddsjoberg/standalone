@@ -369,5 +369,54 @@ check_binary <- function(x,
   invisible(x)
 }
 
+
+#' Check Formula-List Selector
+#'
+#' Checks the structure of the formula-list selector used throughout the
+#' cards, cardx, and gtsummary packages.
+#'
+#' @param x formula-list selecting object
+#' @inheritParams check_class
+#'
+#' @return invisible
+#' @keywords internal
+#' @noRd
+check_formula_list_selector <- function(x,
+                                        allow_empty = FALSE,
+                                        message =
+                                          c(
+                                            ifelse(
+                                              allow_empty,
+                                              "The {.arg {arg_name}} argument must be a named list, list of formulas, a single formula, or empty.",
+                                              "The {.arg {arg_name}} argument must be a named list, list of formulas, or a single formula."
+                                            ),
+                                            "i" = "Review {.help [?syntax](cards::syntax)} for examples and details."
+                                          ),
+                                        arg_name = rlang::caller_arg(x),
+                                        class = "check_formula_list_selector",
+                                        call = parent.frame()) {
+  # if empty, skip test
+  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
+    return(invisible(x))
+  }
+
+  # first check the general structure; must be a list or formula
+  check_class(
+    x = x, cls = c("list", "formula"), allow_empty = allow_empty,
+    message = message, arg_name = arg_name, class = class, call = call
+  )
+
+  # if it's a list, then check each element is either named or a formula
+  if (inherits(x, "list")) {
+    for (i in seq_along(x)) {
+      if (!rlang::is_named(x[i]) && !inherits(x[[i]], "formula")) {
+        cli::cli_abort(message, class = c(class, "standalone-checks"), call = call)
+      }
+    }
+  }
+
+  invisible(x)
+}
+
 # nocov end
 # styler: on
