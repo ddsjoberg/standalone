@@ -151,16 +151,16 @@ get_pkg_dependencies <- function(reference_pkg = "cards", lib.loc = NULL, call =
       names_to = "dependency_type",
     ) |>
     tidyr::separate_rows("pkg", sep = ",") |>
-    dplyr::mutate(pkg = str_squish(dplyr::.data$pkg)) |>
-    dplyr::filter(!is.na(dplyr::.data$pkg)) |>
+    dplyr::mutate(pkg = str_squish(.data$pkg)) |>
+    dplyr::filter(!is.na(.data$pkg)) |>
     tidyr::separate(
-      dplyr::.data$pkg,
+      .data$pkg,
       into = c("pkg", "version"),
       sep = " ", extra = "merge", fill = "right"
     ) |>
     dplyr::mutate(
-      compare = version |> str_extract(pattern = "[>=<]+"),
-      version = version |> str_remove_all(pattern = "[\\(\\) >=<]")
+      compare = .data$version |> str_extract(pattern = "[>=<]+"),
+      version = .data$version |> str_remove_all(pattern = "[\\(\\) >=<]")
     )
 }
 
@@ -178,10 +178,9 @@ get_pkg_dependencies <- function(reference_pkg = "cards", lib.loc = NULL, call =
 get_min_version_required <- function(pkg, reference_pkg = "cards",
                                      lib.loc = NULL, call = get_cli_abort_call()) {
   set_cli_abort_call()
-  cur_pkg <- pkg
 
-  check_not_missing(cur_pkg, call = call)
-  check_class(cur_pkg, cls = "character", call = call)
+  check_not_missing(pkg, call = call)
+  check_class(pkg, cls = "character", call = call)
   check_string(reference_pkg, allow_empty = TRUE, call = call)
 
   # if no package reference, return a df with just the pkg names
@@ -189,7 +188,7 @@ get_min_version_required <- function(pkg, reference_pkg = "cards",
     return(
       .empty_pkg_deps_df() |>
         dplyr::full_join(
-          dplyr::tibble(pkg = cur_pkg),
+          dplyr::tibble(pkg = pkg),
           by = "pkg"
         )
     )
@@ -199,9 +198,9 @@ get_min_version_required <- function(pkg, reference_pkg = "cards",
   # that may not be proper deps of the reference package (these pkgs don't have min versions)
   res <-
     get_pkg_dependencies(reference_pkg, lib.loc = lib.loc) |>
-    dplyr::filter(pkg %in% cur_pkg) |>
+    dplyr::filter(.data$pkg %in% .env$pkg) |>
     dplyr::full_join(
-      dplyr::tibble(pkg = cur_pkg),
+      dplyr::tibble(pkg = pkg),
       by = "pkg"
     )
 
