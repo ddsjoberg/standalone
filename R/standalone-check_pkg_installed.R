@@ -43,7 +43,6 @@
 #' @return `is_pkg_installed()` and `check_pkg_installed()` returns a logical or error,
 #' `get_min_version_required()` returns a data frame with the minimum version required,
 #' `get_pkg_dependencies()` returns a tibble.
-#' @name check_pkg_installed
 #'
 #' @examples
 #' check_pkg_installed("dplyr")
@@ -53,10 +52,14 @@
 #' get_pkg_dependencies()
 #'
 #' get_min_version_required("dplyr")
+#'
+#' @name check_pkg_installed
+#' @noRd
 NULL
 
-#' @rdname check_pkg_installed
-#' @export
+#' @inheritParams check_pkg_installed
+#' @keywords internal
+#' @noRd
 check_pkg_installed <- function(pkg,
                                 reference_pkg = "cards",
                                 call = get_cli_abort_call()) {
@@ -82,8 +85,9 @@ check_pkg_installed <- function(pkg,
     suppressWarnings()
 }
 
-#' @rdname check_pkg_installed
-#' @export
+#' @inheritParams check_pkg_installed
+#' @keywords internal
+#' @noRd
 is_pkg_installed <- function(pkg,
                              reference_pkg = "cards",
                              call = get_cli_abort_call()) {
@@ -108,14 +112,15 @@ is_pkg_installed <- function(pkg,
     suppressWarnings()
 }
 
-#' @rdname check_pkg_installed
-#' @export
+#' @inheritParams check_pkg_installed
+#' @keywords internal
+#' @noRd
 get_pkg_dependencies <- function(reference_pkg = "cards", lib.loc = NULL, call = get_cli_abort_call()) {
   set_cli_abort_call()
 
   check_string(reference_pkg, allow_empty = TRUE, call = call)
 
-  if (is_empty(reference_pkg)) {
+  if (rlang::is_empty(reference_pkg)) {
     return(.empty_pkg_deps_df())
   }
 
@@ -127,7 +132,7 @@ get_pkg_dependencies <- function(reference_pkg = "cards", lib.loc = NULL, call =
     unclass() |>
     dplyr::as_tibble() |>
     dplyr::select(
-      any_of(c(
+      dplyr::any_of(c(
         "Package", "Version", "Imports", "Depends",
         "Suggests", "Enhances", "LinkingTo"
       ))
@@ -142,16 +147,16 @@ get_pkg_dependencies <- function(reference_pkg = "cards", lib.loc = NULL, call =
       names_to = "dependency_type",
     ) |>
     tidyr::separate_rows("pkg", sep = ",") |>
-    dplyr::mutate(pkg = str_squish(.data$pkg)) |>
-    dplyr::filter(!is.na(.data$pkg)) |>
+    dplyr::mutate(pkg = str_squish(rlang::.data$pkg)) |>
+    dplyr::filter(!is.na(rlang::.data$pkg)) |>
     tidyr::separate(
-      .data$pkg,
+      rlang::.data$pkg,
       into = c("pkg", "version"),
       sep = " ", extra = "merge", fill = "right"
     ) |>
     dplyr::mutate(
-      compare = .data$version |> str_extract(pattern = "[>=<]+"),
-      version = .data$version |> str_remove_all(pattern = "[\\(\\) >=<]")
+      compare = rlang::.data$version |> str_extract(pattern = "[>=<]+"),
+      version = rlang::.data$version |> str_remove_all(pattern = "[\\(\\) >=<]")
     )
 }
 
@@ -163,8 +168,9 @@ get_pkg_dependencies <- function(reference_pkg = "cards", lib.loc = NULL, call =
   )
 }
 
-#' @rdname check_pkg_installed
-#' @export
+#' @inheritParams check_pkg_installed
+#' @keywords internal
+#' @noRd
 get_min_version_required <- function(pkg, reference_pkg = "cards",
                                      lib.loc = NULL, call = get_cli_abort_call()) {
   set_cli_abort_call()
@@ -174,7 +180,7 @@ get_min_version_required <- function(pkg, reference_pkg = "cards",
   check_string(reference_pkg, allow_empty = TRUE, call = call)
 
   # if no package reference, return a df with just the pkg names
-  if (is_empty(reference_pkg)) {
+  if (rlang::is_empty(reference_pkg)) {
     return(
       .empty_pkg_deps_df() |>
         dplyr::full_join(
@@ -188,7 +194,7 @@ get_min_version_required <- function(pkg, reference_pkg = "cards",
   # that may not be proper deps of the reference package (these pkgs don't have min versions)
   res <-
     get_pkg_dependencies(reference_pkg, lib.loc = lib.loc) |>
-    dplyr::filter(.data$pkg %in% .env$pkg) |>
+    dplyr::filter(rlang::.data$pkg %in% rlang::.env$pkg) |>
     dplyr::full_join(
       dplyr::tibble(pkg = pkg),
       by = "pkg"
