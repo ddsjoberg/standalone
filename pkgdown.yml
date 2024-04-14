@@ -1,8 +1,8 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.8
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-03-09T16:42Z
+last_built: 2024-04-14T22:59Z
 urls:
   reference: http://www.danieldsjoberg.com/standalone/reference
   article: http://www.danieldsjoberg.com/standalone/articles
