@@ -12,7 +12,8 @@ Depends:
 Imports: 
     cli,
     dplyr,
-    rlang
+    rlang,
+    tidyr
 Suggests:
     usethis
 Encoding: UTF-8
