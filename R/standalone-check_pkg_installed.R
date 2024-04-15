@@ -63,8 +63,6 @@ NULL
 check_pkg_installed <- function(pkg,
                                 reference_pkg = "cards",
                                 call = get_cli_abort_call()) {
-  set_cli_abort_call()
-
   # check inputs ---------------------------------------------------------------
   check_not_missing(pkg)
   check_class(pkg, cls = "character")
@@ -91,8 +89,6 @@ check_pkg_installed <- function(pkg,
 is_pkg_installed <- function(pkg,
                              reference_pkg = "cards",
                              call = get_cli_abort_call()) {
-  set_cli_abort_call()
-
   # check inputs ---------------------------------------------------------------
   check_not_missing(pkg)
   check_class(pkg, cls = "character")
@@ -116,8 +112,6 @@ is_pkg_installed <- function(pkg,
 #' @keywords internal
 #' @noRd
 get_pkg_dependencies <- function(reference_pkg = "cards", lib.loc = NULL, call = get_cli_abort_call()) {
-  set_cli_abort_call()
-
   check_string(reference_pkg, allow_empty = TRUE, call = call)
 
   if (rlang::is_empty(reference_pkg)) {
@@ -173,8 +167,6 @@ get_pkg_dependencies <- function(reference_pkg = "cards", lib.loc = NULL, call =
 #' @noRd
 get_min_version_required <- function(pkg, reference_pkg = "cards",
                                      lib.loc = NULL, call = get_cli_abort_call()) {
-  set_cli_abort_call()
-
   check_not_missing(pkg, call = call)
   check_class(pkg, cls = "character", call = call)
   check_string(reference_pkg, allow_empty = TRUE, call = call)
