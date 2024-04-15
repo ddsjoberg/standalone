@@ -1,7 +1,7 @@
 # ---
 # repo: ddsjoberg/standalone
 # file: standalone-check_pkg_installed.R
-# last-updated: 2024-04-10
+# last-updated: 2024-04-15
 # license: https://unlicense.org
 # dependencies: standalone-cli_call_env.R
 # imports: [rlang, dplyr, tidyr]
