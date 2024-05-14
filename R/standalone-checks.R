@@ -117,9 +117,9 @@ check_scalar_logical <- function(x,
                                    ifelse(
                                      allow_empty,
                                      "The {.arg {arg_name}} argument must be a scalar with class
-                                      {.cls {cls}} or empty, not {.obj_type_friendly {x}}.",
+                                      {.cls logical} or empty, not {.obj_type_friendly {x}}.",
                                      "The {.arg {arg_name}} argument must be a scalar with class
-                                      {.cls {cls}}, not {.obj_type_friendly {x}}."
+                                      {.cls logical}, not {.obj_type_friendly {x}}."
                                    ),
                                  arg_name = rlang::caller_arg(x),
                                  class = "check_scalar_logical",

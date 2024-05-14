@@ -1,0 +1,97 @@
+# check functions work
+
+    Code
+      myfunc(1)
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must be class <character>, not a number.
+
+---
+
+    Code
+      myfunc(1)
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must be class <data.frame>, not a number.
+
+---
+
+    Code
+      myfunc(1)
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must be class <logical>, not a number.
+
+---
+
+    Code
+      myfunc(c(TRUE, FALSE))
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must be a scalar with class <logical>, not a logical vector.
+
+---
+
+    Code
+      myfunc(1)
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must be a string, not a number.
+
+---
+
+    Code
+      myfunc()
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument cannot be missing.
+
+---
+
+    Code
+      myfunc(1:10, 5)
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must be length 5.
+
+---
+
+    Code
+      myfunc(c(TRUE, FALSE))
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must be length 1.
+
+---
+
+    Code
+      myfunc(1, c(0, 1))
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must be in the interval `(0, 1)`.
+
+---
+
+    Code
+      myfunc(1, c(0, 1))
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must be in the interval `(0, 1)` and length 1.
+
+---
+
+    Code
+      myfunc(c(0, 1, 2))
+    Condition
+      Error in `myfunc()`:
+      ! Expecting `x` to be either <logical> or <numeric/integer> coded as 0 and 1.
+
+---
+
+    Code
+      myfunc(1)
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must be a named list, list of formulas, or a single formula.
+      i Review ?syntax (`?cards::syntax()`) for examples and details.
+
