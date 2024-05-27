@@ -16,5 +16,4 @@ test_that("fct_rev() works", {
   f <- factor(c("b", "b", "a", "c", "c", "c"))
 
   expect_equal(levels(fct_rev(f)), rev(levels(f)))
-
 })

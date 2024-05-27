@@ -191,7 +191,3 @@ test_that("check functions work", {
   }
   expect_snapshot(myfunc(1), error = TRUE)
 })
-
-# test_that(" works", {
-
-# })
