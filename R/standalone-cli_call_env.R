@@ -9,7 +9,6 @@
 # This file provides functions to set and access the call environment to use in cli::cli_abort() in check functions.
 #
 # ## Changelog
-# nocov start
 # styler: off
 
 #' Set Call Environment for [cli::cli_abort()]
@@ -45,5 +44,4 @@ get_cli_abort_call <- function() {
   getOption("cli_abort_call", default = parent.frame())
 }
 
-# nocov end
 # styler: on

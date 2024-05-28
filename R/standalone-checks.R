@@ -11,7 +11,6 @@
 # passed by users to functions in packages.
 #
 # ## Changelog
-# nocov start
 # styler: off
 
 #' Check Class
@@ -440,5 +439,4 @@ check_formula_list_selector <- function(x,
   invisible(x)
 }
 
-# nocov end
 # styler: on
