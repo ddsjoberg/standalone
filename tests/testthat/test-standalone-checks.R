@@ -50,7 +50,7 @@ test_that("check functions work", {
 
   expect_error(
     check_scalar_logical(1),
-    'The `1` argument must be a scalar with class <logical>, not a number.'
+    "The `1` argument must be a scalar with class <logical>, not a number."
   )
 
   myfunc <- function(x) {
@@ -64,7 +64,7 @@ test_that("check functions work", {
 
   expect_error(
     check_string(1),
-    'The `1` argument must be a string, not a number.'
+    "The `1` argument must be a string, not a number."
   )
 
   myfunc <- function(x) {
@@ -91,7 +91,7 @@ test_that("check functions work", {
 
   expect_error(
     check_length(1:10, 5),
-    'The `1:10` argument must be length 5.'
+    "The `1:10` argument must be length 5."
   )
 
   myfunc <- function(x, l) {
@@ -105,7 +105,7 @@ test_that("check functions work", {
 
   expect_error(
     check_scalar(c(1, 10)),
-    'The `c(1, 10)` argument must be length 1.',
+    "The `c(1, 10)` argument must be length 1.",
     fixed = TRUE
   )
 
@@ -121,12 +121,12 @@ test_that("check functions work", {
 
   expect_error(
     check_range(5, c(0, 1)),
-    'The `5` argument must be in the interval `(0, 1)`.',
+    "The `5` argument must be in the interval `(0, 1)`.",
     fixed = TRUE
   )
   expect_error(
     check_range(c(4, 5), c(1, 5), include_bounds = c(TRUE, FALSE)),
-    'The `c(4, 5)` argument must be in the interval `[1, 5)`.',
+    "The `c(4, 5)` argument must be in the interval `[1, 5)`.",
     fixed = TRUE
   )
 
@@ -142,7 +142,7 @@ test_that("check functions work", {
 
   expect_error(
     check_scalar_range(5, c(0, 1)),
-    'The `5` argument must be in the interval `(0, 1)` and length 1.',
+    "The `5` argument must be in the interval `(0, 1)` and length 1.",
     fixed = TRUE
   )
   # expect_error(
@@ -164,7 +164,7 @@ test_that("check functions work", {
 
   expect_error(
     check_binary(c(1, 5)),
-    'Expecting `c(1, 5)` to be either <logical> or <numeric/integer> coded as 0 and 1.',
+    "Expecting `c(1, 5)` to be either <logical> or <numeric/integer> coded as 0 and 1.",
     fixed = TRUE
   )
 
@@ -181,7 +181,7 @@ test_that("check functions work", {
 
   expect_error(
     check_formula_list_selector(list(1)),
-    'The `list(1)` argument must be a named list, list of formulas, or a single formula.',
+    "The `list(1)` argument must be a named list, list of formulas, or a single formula.",
     fixed = TRUE
   )
 
