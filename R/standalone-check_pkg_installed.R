@@ -119,7 +119,7 @@ get_pkg_dependencies <- function(reference_pkg = "cards", lib.loc = NULL, call =
 
   description <- utils::packageDescription(reference_pkg, lib.loc = lib.loc) |> suppressWarnings()
   if (identical(description, NA)) {
-    return(.empty_pkg_deps_df())
+    return(.empty_pkg_deps_df()) # nocov
   }
   description |>
     unclass() |>

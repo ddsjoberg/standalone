@@ -13,7 +13,7 @@ test_that("fct_inorder() works", {
 })
 
 test_that("fct_rev() works", {
-  f <- factor(c("b", "b", "a", "c", "c", "c"))
+  f <- c("b", "b", "a", "c", "c", "c")
 
-  expect_equal(levels(fct_rev(f)), rev(levels(f)))
+  expect_equal(levels(fct_rev(f)), rev(levels(as.factor(f))))
 })
