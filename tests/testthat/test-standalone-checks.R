@@ -138,19 +138,18 @@ test_that("check functions work", {
 
   # check_scalar_range()
   expect_silent(check_scalar_range(5, c(1, 20)))
-  # expect_silent(check_scalar_range(5, c(1, 5), include_bounds = c(FALSE, TRUE)))
+  expect_silent(check_scalar_range(5, c(1, 5), include_bounds = c(FALSE, TRUE)))
 
   expect_error(
     check_scalar_range(5, c(0, 1)),
     "The `5` argument must be in the interval `(0, 1)` and length 1.",
     fixed = TRUE
   )
-  # expect_error(
-  #   check_scalar_range(c(4, 5), c(1, 5), include_bounds = c(TRUE, FALSE)),
-  #   'The `5` argument must be in the interval `[1, 5)`.',
-  #   fixed = TRUE
-  # )
-  # parent.env(call) <- parent.frame()
+  expect_error(
+    check_scalar_range(c(4, 5), c(1, 5), include_bounds = c(TRUE, FALSE)),
+    'The `5` argument must be in the interval `[1, 5)`.',
+    fixed = TRUE
+  )
 
   myfunc <- function(x, r) {
     set_cli_abort_call()
