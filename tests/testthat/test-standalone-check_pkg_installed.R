@@ -12,7 +12,7 @@ test_that("check_pkg_installed() works", {
   expect_false(is_pkg_installed(c("dpl-eye-r", "tidyr")))
 
   expect_equal(
-    get_min_version_required("tidyselect") |>
+    get_min_version_required("tidyselect", "dplyr") |>
       dplyr::select(dependency_type, pkg, version, compare),
     dplyr::tibble(
       dependency_type = "Imports",
