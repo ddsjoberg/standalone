@@ -147,7 +147,7 @@ test_that("check functions work", {
   )
   expect_error(
     check_scalar_range(c(4, 5), c(1, 5), include_bounds = c(TRUE, FALSE)),
-    'The `5` argument must be in the interval `[1, 5)`.',
+    'The `c(4, 5)` argument must be in the interval `[1, 5)` and length 1.',
     fixed = TRUE
   )
 
