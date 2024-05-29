@@ -16,11 +16,11 @@
 
 #' Check Class
 #'
+#' @param x `(object)`\cr
+#'   object to check
 #' @param cls (`character`)\cr
 #'   character vector or string indicating accepted classes.
 #'   Passed to `inherits(what=cls)`
-#' @param x `(object)`\cr
-#'   object to check
 #' @param message (`character`)\cr
 #'   string passed to `cli::cli_abort(message)`
 #' @param allow_empty (`logical(1)`)\cr
