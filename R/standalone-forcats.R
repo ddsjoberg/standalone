@@ -11,6 +11,7 @@
 #
 # ## Changelog
 #
+# nocov start
 # styler: off
 
 fct_infreq <- function(f, ordered = NA) {
@@ -40,4 +41,5 @@ fct_rev <- function(f) {
   )
 }
 
+# nocov end
 # styler: on

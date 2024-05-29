@@ -11,6 +11,7 @@
 #
 # ## Changelog
 #
+# nocov start
 # styler: off
 
 deframe <- function(x) {
@@ -39,4 +40,5 @@ rownames_to_column <- function(.data, var = "rowname") {
   dplyr::relocate(.data, dplyr::all_of(var), .before = 1L)
 }
 
+# nocov end
 # styler: on

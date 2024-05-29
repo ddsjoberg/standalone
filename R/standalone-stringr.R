@@ -11,6 +11,7 @@
 #
 # ## Changelog
 #
+# nocov start
 # styler: off
 
 str_trim <- function(string, side = c("both", "left", "right")) {
@@ -39,4 +40,5 @@ str_detect <- function(string, pattern, fixed = FALSE) {
   grepl(pattern = pattern, x = string, fixed = fixed)
 }
 
+# nocov end
 # styler: on

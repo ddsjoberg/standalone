@@ -10,6 +10,7 @@
 # This file provides functions to check package installation.
 #
 # ## Changelog
+# nocov start
 # styler: off
 
 #' Check Package Installation
@@ -199,4 +200,5 @@ get_min_version_required <- function(pkg, reference_pkg = "cards",
   res
 }
 
+# nocov end
 # styler: on
