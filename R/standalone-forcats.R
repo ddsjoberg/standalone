@@ -50,10 +50,11 @@ fct_expand <- function(factor, ...) {
   }
 
 fct_na_value_to_level <- function(factor, new_level = NA) {
-  f <- fct_expand(f, NA)
+  f <- fct_expand(factor, new_level)
   new_levels <- levels(f)
   new_levels[is.na(new_levels)] <- new_level
-  lvls_revalue(f, new_levels)
+  attr(f, "levels") <- new_levels
+  f
 }
 # nocov end
 # styler: on
