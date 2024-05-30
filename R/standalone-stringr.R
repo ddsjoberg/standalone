@@ -19,8 +19,8 @@ str_trim <- function(string, side = c("both", "left", "right")) {
   trimws(x = string, which = side, whitespace = "[ \t\r\n]")
 }
 
-str_squish <- function(string) {
-  gsub(x = string, pattern = "\\s+", replacement = " ") |>
+str_squish <- function(string, fixed = FALSE) {
+  gsub(x = string, pattern = "\\s+", replacement = " ", fixed = fixed) |>
     str_trim(side = "both")
 }
 
@@ -28,20 +28,20 @@ str_remove <- function (string, pattern) {
   sub (x = string, pattern = pattern, replacement = "")
 }
 
-str_remove_all <- function(string, pattern) {
-  gsub(x = string, pattern = pattern, replacement = "")
+str_remove_all <- function(string, pattern, fixed = FALSE) {
+  gsub(x = string, pattern = pattern, replacement = "", fixed = fixed)
 }
 
-str_extract <- function(string, pattern) {
+str_extract <- function(string, pattern, fixed = FALSE) {
   ifelse(
-    str_detect(string, pattern),
-    regmatches(x = string, m = regexpr(pattern = pattern, text = string)),
+    str_detect(string, pattern, fixed = fixed),
+    regmatches(x = string, m = regexpr(pattern = pattern, text = string, fixed = fixed)),
     NA_character_
   )
 }
 
-str_detect <- function(string, pattern) {
-  grepl(pattern = pattern, x = string)
+str_detect <- function(string, pattern, fixed = FALSE) {
+  grepl(pattern = pattern, x = string, fixed = fixed)
 }
 
 str_replace <- function(string, pattern, replacement){
