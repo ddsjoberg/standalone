@@ -30,7 +30,7 @@ jobs:
           # vector of all R files in the R folder
           files <- list.files(path = "./R", pattern = "\\.R$", ignore.case = TRUE, full.names = TRUE)
 
-          # loop over the files and remove 'nocov start' tab
+          # loop over the files and remove 'nocov start' tag
           for (file in files) {
             readLines(file) |>
               gsub(x = _, pattern = "^# nocov start$", replacement = "") |>
