@@ -3,6 +3,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/ddsjoberg/standalone/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ddsjoberg/standalone/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/ddsjoberg/standalone/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ddsjoberg/standalone?branch=main)
 <!-- badges: end -->
 
 The goal of standalone is to provide standalone scripts that are useful for the development of R packages.
