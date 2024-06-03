@@ -41,20 +41,26 @@ fct_rev <- function(f) {
   )
 }
 
-fct_expand <- function(factor, ...) {
-    new_levels_list <- list(...)
-    new_levels <- unlist(new_levels_list, use.names = FALSE)
-    expanded_levels <- unique(c(levels(factor), new_levels))
-    levels(factor) <- expanded_levels
-    return(factor)
+fct_expand <- function(f, ..., after = Inf) {
+  f <- levels(f) |> append(values = c(...), after = after)
+  return(f)
+}
+
+fct_na_value_to_level <- function(f, level = NA) {
+  if (!is.na(level)) {
+    f[is.na(f)] <- as.character(level)
+    if (!level %in% levels(f)) {
+      levels(f) <- c(levels(f), level)
+    }
+  } else {
+    if (!"NA" %in% levels(f)) {
+      levels(f) <- c(levels(f), "NA")
+    }
+    f[is.na(f)] <- "NA"
   }
 
-fct_na_value_to_level <- function(factor, new_level = NA) {
-  f <- fct_expand(factor, new_level)
-  new_levels <- levels(f)
-  new_levels[is.na(new_levels)] <- new_level
-  attr(f, "levels") <- new_levels
-  f
+  return(factor(f, levels = levels(f)))
 }
+
 # nocov end
 # styler: on

@@ -24,8 +24,8 @@ str_squish <- function(string, fixed = FALSE) {
     str_trim(side = "both")
 }
 
-str_remove <- function (string, pattern) {
-  sub (x = string, pattern = pattern, replacement = "")
+str_remove <- function (string, pattern, fixed = FALSE) {
+  sub (x = string, pattern = pattern, replacement = "", fixed = fixed)
 }
 
 str_remove_all <- function(string, pattern, fixed = FALSE) {
@@ -44,15 +44,15 @@ str_detect <- function(string, pattern, fixed = FALSE) {
   grepl(pattern = pattern, x = string, fixed = fixed)
 }
 
-str_replace <- function(string, pattern, replacement){
-  sub(x = string, pattern = pattern, replacement = replacement)
+str_replace <- function(string, pattern, replacement, fixed = FALSE){
+  sub(x = string, pattern = pattern, replacement = replacement, fixed = fixed)
 }
 
-str_replace_all <- function (string, pattern, replacement){
-  gsub(x = string, pattern = pattern, replacement = replacement)
+str_replace_all <- function (string, pattern, replacement, fixed = FALSE){
+  gsub(x = string, pattern = pattern, replacement = replacement, fixed = fixed)
 }
 
-word <- function(string, start, end = start) {
+word <- function(string, start, end = start, sep = fixed(" ") , fixed = FALSE) {
   words <- strsplit(string, "\\s+")[[1]]
   if (start < 1 || end > length(words) || start > end) {
     return(NA)
@@ -63,6 +63,16 @@ word <- function(string, start, end = start) {
 }
 
 str_sub <- function(string, start = 1L, end = -1L){
+  str_length <- nchar(string)
+
+  # Adjust start and end indices for negative values
+  if (start < 0) {
+    start <- str_length + start + 1
+  }
+  if (end < 0) {
+    end <- str_length + end + 1
+  }
+
   substr(x = string, start = start, stop = end)
 }
 
@@ -70,7 +80,7 @@ str_sub_all <- function(string, start = 1L, end = -1L){
   lapply(string, function(x) substr(x, start = start, stop = end))
 }
 
-str_pad2 <- function(string, width, side = c("left", "right", "both")){
+str_pad <- function(string, width, side = c("left", "right", "both"), pad = " ", use_width = TRUE){
     side <- match.arg(side, c("left", "right", "both"))
 
     format_string <- ifelse(side == "right", paste0("%-", width, "s"),

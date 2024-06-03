@@ -71,3 +71,61 @@ test_that("str_detect() works", {
   s_fixed <- str_detect(fruits, "^a", fixed = TRUE)
   expect_identical(s_fixed, rep(FALSE, 4))
 })
+
+test_that("str_remove() works", {
+  s <- str_remove(c("one 1", "two 2", "three 3"), "[aeiou]")
+  expect_identical(s, c("ne 1", "tw 2", "thre 3"))
+
+  s <- str_remove(c("one 1  ", "two\n\n2", "three\r3\t"), "[ \t\r\n]")
+  expect_identical(s, c("one1  ", "two\n2", "three3\t"))
+
+  s_notfixed <- str_remove(c("one.1", "two..2", "three...3"), ".")
+  expect_identical(s_notfixed, c("ne.1", "wo..2", "hree...3"))
+
+  s_fixed <- str_remove(c("one.1", "two..2", "three...3"), ".", fixed = TRUE)
+  expect_identical(s_fixed, c("one1", "two.2", "three..3"))
+})
+
+test_that("str_replace() works", {
+  fruits <- c("one apple", "two pears", "three bananas")
+
+  s <- str_replace(fruits, "[aeiou]", "-")
+  expect_identical(s, c("-one apple", "tw- pears", "thr-e bananas"))
+
+  s <- str_replace(fruits, "([aeiou])", "\\1\\1")
+  expect_identical(s, c("oone apple", "twoo pears", "threee bananas"))
+
+})
+
+test_that("str_replace_all() works", {
+  fruits <- c("one apple", "two pears", "three bananas")
+
+  s <- str_replace_all(fruits, "[aeiou]", "-")
+  expect_identical(s, c("-n- -ppl-", "tw- p--rs", "thr-- b-n-n-s"))
+
+  s <- str_replace_all(fruits, "([aeiou])", "\\1\\1")
+  expect_identical(s, c("oonee aapplee", "twoo peeaars", "threeee baanaanaas"))
+
+})
+
+test_that("str_sub() works", {
+  hw <- "Hadley Wickham"
+
+  s <- str_sub(hw, 1, 6)
+  expect_identical(s, "Hadley")
+
+  s <- str_sub(hw, -1)
+  expect_identical(s, "m")
+
+})
+
+test_that("str_sub_all() works", {
+  fruits <- c("one apple", "two pears", "three bananas")
+
+  s <- str_replace_all(fruits, "[aeiou]", "-")
+  expect_identical(s, c("-n- -ppl-", "tw- p--rs", "thr-- b-n-n-s"))
+
+  s <- str_replace_all(fruits, "([aeiou])", "\\1\\1")
+  expect_identical(s, c("oonee aapplee", "twoo peeaars", "threeee baanaanaas"))
+
+})

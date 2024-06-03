@@ -17,3 +17,13 @@ test_that("fct_rev() works", {
 
   expect_equal(levels(fct_rev(f)), rev(levels(as.factor(f))))
 })
+
+test_that("fct_expand() works", {
+  f <- factor(sample(letters[1:3], 20, replace = TRUE))
+  expect_equal(fct_expand(f, letters[1:6]), c("a", "b", "c", "a", "b", "c", "d", "e", "f"))
+})
+
+test_that("fct_na_value_to_level() works", {
+  f1 <- as.factor(c("a", "b", NA, "c", "b", NA))
+  expect_equal(levels(fct_na_value_to_level(f1, level = NA)), c("a", "b", "c", "NA"))
+})
