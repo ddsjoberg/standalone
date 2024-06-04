@@ -52,13 +52,30 @@ str_replace_all <- function (string, pattern, replacement, fixed = FALSE){
   gsub(x = string, pattern = pattern, replacement = replacement, fixed = fixed)
 }
 
-word <- function(string, start, end = start, sep = fixed(" ") , fixed = FALSE) {
-  words <- strsplit(string, "\\s+")[[1]]
-  if (start < 1 || end > length(words) || start > end) {
+word <- function(string, start, end = start, sep = " ", fixed = FALSE) {
+  # Handle vectorized string input
+  if (length(string) > 1) {
+    return(sapply(string, word, start, end, sep, fixed, USE.NAMES = FALSE))
+  }
+
+  words <- unlist(strsplit(string, split = sep, fixed = fixed))
+  words <- words[words != ""]  # Remove empty strings
+
+  # Adjust negative indices
+  n <- length(words)
+  if (start < 0) {
+    start <- n + start + 1
+  }
+  if (end < 0) {
+    end <- n + end + 1
+  }
+
+  # Validate indices
+  if (start < 1 || end > n || start > end) {
     return(NA)
   } else {
     extracted_words <- words[start:end]
-    return(paste(extracted_words, collapse = " "))
+    return(paste(extracted_words, collapse = sep))
   }
 }
 
@@ -81,17 +98,21 @@ str_sub_all <- function(string, start = 1L, end = -1L){
 }
 
 str_pad <- function(string, width, side = c("left", "right", "both"), pad = " ", use_width = TRUE){
-    side <- match.arg(side, c("left", "right", "both"))
+  side <- match.arg(side, c("left", "right", "both"))
 
+  if (side == "both") {
+    pad_left <- (width - nchar(string)) %/% 2
+    pad_right <- width - nchar(string) - pad_left
+    padded_string <- paste0(strrep(pad, pad_left), string, strrep(pad, pad_right))
+  } else {
     format_string <- ifelse(side == "right", paste0("%-", width, "s"),
                             ifelse(side == "left", paste0("%", width, "s"),
-                                   paste0("%^", width, "s")))
+                                   paste0("%", width, "s")))
 
-    padded_strings <- mapply(function(fmt, str) {
-      sprintf(fmt, str)
-    }, format_string, string, SIMPLIFY = TRUE)
+    padded_string <- sprintf(format_string, string)
+  }
 
-    return(unname(padded_strings))
+  return(padded_string)
 }
 
 # nocov end

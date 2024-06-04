@@ -47,20 +47,22 @@ fct_expand <- function(f, ..., after = Inf) {
 }
 
 fct_na_value_to_level <- function(f, level = NA) {
-  if (!is.na(level)) {
-    f[is.na(f)] <- as.character(level)
-    if (!level %in% levels(f)) {
-      levels(f) <- c(levels(f), level)
-    }
-  } else {
-    if (!"NA" %in% levels(f)) {
-      levels(f) <- c(levels(f), "NA")
-    }
-    f[is.na(f)] <- "NA"
+  # Convert NA level to a character "NA" if it is NA, otherwise ensure level is a character
+  level_char <- if (is.na(level)) "NA" else as.character(level)
+
+  if (!level_char %in% levels(f)) {
+    # Add the new level to the factor's levels
+    levels(f) <- c(levels(f), level_char)
+  }
+    inds <- is.na(f)
+  if (any(inds)) {
+    f[inds] <- level_char
   }
 
   return(factor(f, levels = levels(f)))
 }
+
+
 
 # nocov end
 # styler: on

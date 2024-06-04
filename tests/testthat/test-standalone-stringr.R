@@ -38,6 +38,9 @@ test_that("str_remove_all() works", {
 
   s_fixed <- str_remove_all(c("one.1", "two..2", "three...3"), ".", fixed = TRUE)
   expect_identical(s_fixed, c("one1", "two2", "three3"))
+
+  s <- str_remove_all(c("one.1", "two..2", "three...3"), ".")
+  expect_identical(s, stringr::str_remove_all(c("one.1", "two..2", "three...3"), "."))
 })
 
 test_that("str_extract() works", {
@@ -84,17 +87,22 @@ test_that("str_remove() works", {
 
   s_fixed <- str_remove(c("one.1", "two..2", "three...3"), ".", fixed = TRUE)
   expect_identical(s_fixed, c("one1", "two.2", "three..3"))
+
+  s <- str_remove(c("one.1", "two..2", "three...3"), ".")
+  expect_identical(s, stringr::str_remove(c("one.1", "two..2", "three...3"), "."))
 })
 
 test_that("str_replace() works", {
   fruits <- c("one apple", "two pears", "three bananas")
 
   s <- str_replace(fruits, "[aeiou]", "-")
-  expect_identical(s, c("-one apple", "tw- pears", "thr-e bananas"))
+  expect_identical(s, c("-ne apple", "tw- pears", "thr-e bananas"))
 
   s <- str_replace(fruits, "([aeiou])", "\\1\\1")
   expect_identical(s, c("oone apple", "twoo pears", "threee bananas"))
 
+  s <- str_replace(fruits, "([aeiou])", "\\1\\1")
+  expect_identical(s, stringr::str_replace(fruits, "([aeiou])", "\\1\\1"))
 })
 
 test_that("str_replace_all() works", {
@@ -105,6 +113,9 @@ test_that("str_replace_all() works", {
 
   s <- str_replace_all(fruits, "([aeiou])", "\\1\\1")
   expect_identical(s, c("oonee aapplee", "twoo peeaars", "threeee baanaanaas"))
+
+  s <- str_replace_all(fruits, "[aeiou]", "-")
+  expect_identical(s, stringr::str_replace_all(fruits, "[aeiou]", "-"))
 
 })
 
@@ -117,6 +128,9 @@ test_that("str_sub() works", {
   s <- str_sub(hw, -1)
   expect_identical(s, "m")
 
+  s <- str_sub(hw, -1)
+  expect_identical(s, stringr::str_sub(hw, -1))
+
 })
 
 test_that("str_sub_all() works", {
@@ -128,4 +142,27 @@ test_that("str_sub_all() works", {
   s <- str_replace_all(fruits, "([aeiou])", "\\1\\1")
   expect_identical(s, c("oonee aapplee", "twoo peeaars", "threeee baanaanaas"))
 
+  s <- str_replace_all(fruits, "([aeiou])", "\\1\\1")
+  expect_identical(s, stringr::str_replace_all(fruits, "([aeiou])", "\\1\\1"))
+})
+
+test_that("str_pad() works", {
+  s <-  str_pad("hadley", 30, "left")
+  expect_identical(s, stringr::str_pad("hadley", 30, "left"))
+
+  s <- str_pad("hadley", 30, "right")
+  expect_identical(s, stringr::str_pad("hadley", 30, "right"),)
+
+  s <- str_pad("hadley", 30, "both")
+  expect_identical(s, stringr::str_pad("hadley", 30, "both"))
+})
+
+test_that("word() works", {
+  sentences <- c("Jane saw a cat", "Jane sat down")
+
+  s <- word(sentences, 1)
+  expect_identical(s, stringr::word(sentences, 1))
+
+  s <- word(sentences, 2, -1)
+  expect_identical(s, stringr::word(sentences, 2, -1))
 })
