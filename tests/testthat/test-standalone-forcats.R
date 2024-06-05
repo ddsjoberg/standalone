@@ -24,6 +24,7 @@ test_that("fct_rev() works", {
 test_that("fct_expand() works", {
   f <- factor(sample(letters[1:3], 20, replace = TRUE))
   expect_equal(fct_expand(f, letters[1:6]), forcats::fct_expand(f, letters[1:6]))
+  expect_equal(fct_expand(letters[1:3], "z", "zz", after = 0), forcats::fct_expand(letters[1:3], "z", "zz", after = 0))
 })
 
 test_that("fct_na_value_to_level() works", {
