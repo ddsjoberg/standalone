@@ -44,7 +44,10 @@ fct_rev <- function(f) {
 fct_expand <- function(f, ..., after = Inf) {
   if (!inherits(f, "factor")) f <- factor(f)
 
-  new_levels <- levels(f) |> append(values = setdiff(c(...), levels(f)), after = after)
+  old_levels <- levels(f)
+  new_levels <-
+    old_levels |>
+    append(values = setdiff(c(...), old_levels), after = after)
   factor(f, levels = new_levels)
 }
 

@@ -28,9 +28,16 @@ test_that("fct_expand() works", {
 })
 
 test_that("fct_na_value_to_level() works", {
+  # default NA level
   f1 <- as.factor(c("a", "b", NA, "c", "b", NA))
   expect_equal(
     fct_na_value_to_level(f1, level = NA),
     forcats::fct_na_value_to_level(f1, level = NA)
   )
+
+  # specified character level
+  f2 <- factor(c(NA, letters[1:2]))
+
+  forcats::fct_na_value_to_level(f2, "(Missing)")
+  fct_na_value_to_level(f2, "(Missing)")
 })
