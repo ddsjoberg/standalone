@@ -52,14 +52,15 @@ fct_expand <- function(f, ..., after = Inf) {
 }
 
 fct_na_value_to_level <- function(f, level = NA) {
-  if (is.na(level)) {
-    # Use addNA to add NA as a level
-    f <- addNA(f)
-  } else {
-    # Convert NA to the specified level
-    f[is.na(f)] <- level
-  }
-  return(f)
+  if (!inherits(f, "factor")) f <- factor(f)
+
+  # make NA an explicit level
+  f <- addNA(f, ifany = FALSE)
+
+  # replace NA level with the string passed in `level` argument
+  if (!is.na(level)) levels(f)[is.na(levels(f))] <- level
+
+  f
 }
 
 
