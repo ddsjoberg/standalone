@@ -52,7 +52,7 @@ str_replace_all <- function (string, pattern, replacement, fixed = FALSE){
   gsub(x = string, pattern = pattern, replacement = replacement, fixed = fixed)
 }
 
-word <- function(string, start, end = start, sep = " ", fixed = FALSE) {
+word <- function(string, start, end = start, sep = " ", fixed = TRUE) {
   # Handle vectorized string input
   if (length(string) > 1) {
     return(sapply(string, word, start, end, sep, fixed, USE.NAMES = FALSE))
