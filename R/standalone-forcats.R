@@ -41,8 +41,13 @@ fct_rev <- function(f) {
   )
 }
 
+
 fct_expand <- function(f, ..., after = Inf) {
-  f <- levels(f) |> append(values = c(...), after = after)
+  old_levels <- levels(f)
+  new_levels <- as.character(...)
+  new_levels <- append(old_levels, setdiff(new_levels, old_levels),
+                       after = after)
+  f <- factor(f, levels = unique(new_levels))
   return(f)
 }
 
@@ -54,15 +59,13 @@ fct_na_value_to_level <- function(f, level = NA) {
     # Add the new level to the factor's levels
     levels(f) <- c(levels(f), level_char)
   }
-    inds <- is.na(f)
+  inds <- is.na(f)
   if (any(inds)) {
     f[inds] <- level_char
   }
 
   return(factor(f, levels = levels(f)))
 }
-
-
 
 # nocov end
 # styler: on
