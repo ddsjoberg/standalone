@@ -3,12 +3,14 @@ test_that("fct_infreq() works", {
 
   expect_equal(levels(fct_infreq(f)), as.character(unique(sort(f, decreasing = TRUE))))
   expect_true(is.ordered(fct_infreq(f, ordered = TRUE)))
+  expect_equal(levels(fct_infreq(f)), levels(forcats::fct_infreq(f)))
 })
 
 test_that("fct_inorder() works", {
   f <- factor(c("b", "b", "a", "c", "c", "c"))
 
   expect_equal(levels(fct_inorder(f)), as.character(unique(f)))
+  expect_equal(levels(fct_inorder(f)), levels(forcats::fct_inorder(f)))
   expect_true(is.ordered(fct_inorder(f, ordered = TRUE)))
 })
 
@@ -16,6 +18,7 @@ test_that("fct_rev() works", {
   f <- c("b", "b", "a", "c", "c", "c")
 
   expect_equal(levels(fct_rev(f)), rev(levels(as.factor(f))))
+  expect_equal(levels(fct_rev(f)), levels(forcats::fct_rev(f)))
 })
 
 test_that("fct_expand() works", {

@@ -8,6 +8,9 @@ test_that("str_trim() works", {
   s <- str_trim("\n\ntrailing and leading whitespace\n\n", "right")
   expect_identical(s, "\n\ntrailing and leading whitespace")
 
+  s <- str_trim("\n\ntrailing and leading whitespace\n\n", "right")
+  expect_identical(s, stringr::str_trim("\n\ntrailing and leading whitespace\n\n", "right"))
+
   s <- str_trim("    ")
   expect_identical(s, "")
 })
@@ -24,6 +27,9 @@ test_that("str_squish() works", {
 
   s_fixed <- str_squish("\n\nString with excess  trailing and leading white   space\n\n", fixed = TRUE)
   expect_identical(s_fixed, "String with excess  trailing and leading white   space")
+
+  s <- str_squish("\n\nString with excess  trailing and leading white   space\n\n")
+  expect_identical(s, stringr::str_squish("\n\nString with excess  trailing and leading white   space\n\n"))
 })
 
 test_that("str_remove_all() works", {
@@ -57,6 +63,9 @@ test_that("str_extract() works", {
 
   s_fixed <- str_extract(shopping_list, "\\d", fixed = TRUE)
   expect_identical(s_fixed, rep(NA_character_, 4))
+
+  s <- str_extract(shopping_list, "[a-z]+")
+  expect_identical(s, stringr::str_extract(shopping_list, "[a-z]+"))
 })
 
 test_that("str_detect() works", {
@@ -73,6 +82,9 @@ test_that("str_detect() works", {
 
   s_fixed <- str_detect(fruits, "^a", fixed = TRUE)
   expect_identical(s_fixed, rep(FALSE, 4))
+
+  s <- str_detect(fruits, "p")
+  expect_identical(s, stringr::str_detect(fruits, "p"))
 })
 
 test_that("str_remove() works", {
