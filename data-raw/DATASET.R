@@ -2,9 +2,12 @@
 lst_scripts <-
   list(
     # FROM THE standalone PACKAGE
+    "standalone-check_pkg_installed" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-check_pkg_installed.R",
     "standalone-checks" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-checks.R",
-    "standalone-stringr" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-stringr.R",
+    "standalone-standalone-cli_call_env" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-standalone-cli_call_env.R",
     "standalone-forcats" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-forcats.R",
+    "standalone-stringr" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-stringr.R",
+    "standalone-tibble" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-tibble.R",
 
     # FROM THE rlang PACKAGE
     "rlang-purrr" = "https://raw.githubusercontent.com/r-lib/rlang/main/R/standalone-purrr.R",
