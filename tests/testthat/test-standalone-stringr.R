@@ -30,7 +30,7 @@ test_that("str_squish() works", {
   expect_identical(s_notfixed, stringr::str_squish("\n\nString with excess  trailing and leading white   space\n\n"))
 
   s_fixed <- str_squish("\n\nString with excess  trailing and leading white   space\n\n", fixed = TRUE)
-  expect_identical(s_fixed, "String with excess  trailing and leading white   space")
+  expect_identical(s_fixed, "String with excess trailing and leading white space")
   expect_identical(s_fixed, stringr::str_squish(stringr::fixed("\n\nString with excess  trailing and leading white   space\n\n")))
 
   s <- str_squish("\n\nString with excess  trailing and leading white   space\n\n")
@@ -66,7 +66,7 @@ test_that("str_extract() works", {
   expect_identical(s, stringr::str_extract(shopping_list, "[a-z]+"))
 
   s <- str_extract(shopping_list, "([a-z]+) of ([a-z]+)")
-  expect_identical(s, c(NA, "bag of sugar", "bag of flour", NA))
+  expect_identical(s, c(NA, "bag of flour", "bag of sugar", NA))
   expect_identical(s, stringr::str_extract(shopping_list, "([a-z]+) of ([a-z]+)"))
 
   s_notfixed <- str_extract(shopping_list, "\\d")

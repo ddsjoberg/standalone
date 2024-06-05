@@ -20,8 +20,28 @@ str_trim <- function(string, side = c("both", "left", "right")) {
 }
 
 str_squish <- function(string, fixed = FALSE) {
-  gsub(x = string, pattern = "\\s+", replacement = " ", fixed = fixed) |>
-    str_trim(side = "both")
+  string <- gsub("\\s+", " ", string)  # Replace multiple white spaces with a single white space
+  string <- gsub("^\\s+|\\s+$", "", string)  # Trim leading and trailing white spaces
+  return(string)
+}
+
+
+str_extract <- function(string, pattern, fixed = FALSE) {
+  result <- sapply(string, function(x) {
+    # Adjust the pattern if fixed is TRUE
+    if (fixed) {
+      # Escape special characters to treat them as literal in regex
+      pattern <- gsub("([][{}()+*^$.|\\\\?])", "\\\\\\1", pattern)
+    }
+    match_pos <- regexpr(pattern = pattern, text = x, perl = TRUE)
+    if (match_pos > 0) {
+      regmatches(x, match_pos)
+    } else {
+      NA_character_
+    }
+  }, USE.NAMES = FALSE)
+
+  return(result)
 }
 
 str_remove <- function (string, pattern, fixed = FALSE) {
