@@ -29,5 +29,8 @@ test_that("fct_expand() works", {
 
 test_that("fct_na_value_to_level() works", {
   f1 <- as.factor(c("a", "b", NA, "c", "b", NA))
-  expect_equal(levels(fct_na_value_to_level(f1, level = NA)), c("a", "b", "c", "NA"))
+  expect_equal(
+    fct_na_value_to_level(f1, level = NA),
+    forcats::fct_na_value_to_level(f1, level = NA)
+  )
 })
