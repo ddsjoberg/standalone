@@ -43,29 +43,9 @@ fct_rev <- function(f) {
 
 fct_expand <- function(f, ..., after = Inf) {
   if (!inherits(f, "factor")) f <- factor(f)
-  old_levels <- levels(f)
-  new_levels <- as.character(c(...))
 
-  # Determine the unique new levels not already in old_levels
-  unique_new_levels <- setdiff(new_levels, old_levels)
-
-  # Adjust the handling of 'after' to allow adding at the beginning
-  if (is.infinite(after) || after >= length(old_levels)) {
-    # Append new levels at the end if 'after' is Inf or beyond the last level
-    final_levels <- c(old_levels, unique_new_levels)
-  } else if (after == 0) {
-    # Add new levels at the beginning if 'after' is 0
-    final_levels <- c(unique_new_levels, old_levels)
-  } else {
-    # Insert new levels after the specified position
-    if(after < 0) {
-      stop("The 'after' parameter is out of bounds. It must be at least 0.")
-    }
-    final_levels <- append(old_levels, unique_new_levels, after = after)
-  }
-
-  # Return the factor with updated levels
-  return(factor(f, levels = final_levels))
+  new_levels <- levels(f) |> append(values = setdiff(c(...), levels(f)), after = after)
+  factor(f, levels = new_levels)
 }
 
 fct_na_value_to_level <- function(f, level = NA) {
