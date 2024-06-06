@@ -95,3 +95,11 @@
       ! The `x` argument must be a named list, list of formulas, or a single formula.
       i Review ?syntax (`?cards::syntax()`) for examples and details.
 
+---
+
+    Code
+      myfunc(letters)
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must have 2 levels.
+

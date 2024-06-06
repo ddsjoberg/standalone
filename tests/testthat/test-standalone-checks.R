@@ -189,4 +189,13 @@ test_that("check functions work", {
     check_formula_list_selector(x, call = get_cli_abort_call())
   }
   expect_snapshot(myfunc(1), error = TRUE)
+
+  # check_n_levels()
+  myfunc <- function(x) {
+    set_cli_abort_call()
+    check_n_levels(x, 2L)
+  }
+  expect_silent(myfunc(sample(c("a", "b"), size = 10, replace = TRUE)))
+  expect_snapshot(myfunc(letters), error = TRUE)
+
 })
