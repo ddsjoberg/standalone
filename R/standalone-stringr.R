@@ -1,6 +1,6 @@
 # ---
 # file: standalone-stringr.R
-# last-updated: 2024-01-24
+# last-updated: 2024-06-05
 # license: https://unlicense.org
 # imports: rlang
 # ---
