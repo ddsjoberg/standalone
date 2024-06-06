@@ -59,7 +59,7 @@ test_that("str_remove_all() works", {
 })
 
 test_that("str_extract() works", {
-  shopping_list <- c("apples x43", "bag of flour", "bag of sugar", "milk x2")
+  shopping_list <- c("apples x43", "bag of flour", "bag of sugar, bag of sugar", "milk x2")
 
   s <- str_extract(shopping_list, "[a-z]+")
   expect_identical(s, c("apples", "bag", "bag", "milk"))
@@ -79,6 +79,25 @@ test_that("str_extract() works", {
 
   s <- str_extract(shopping_list, "[a-z]+")
   expect_identical(s, stringr::str_extract(shopping_list, "[a-z]+"))
+})
+
+test_that("str_extract_all() works", {
+  shopping_list <- c("apples x43", "bag of flour", "bag of sugar, bag of sugar", "milk x2")
+
+  s <- str_extract_all(shopping_list, "[a-z]+")
+  expect_identical(s, stringr::str_extract_all(shopping_list, "[a-z]+"))
+
+  s <- str_extract_all(shopping_list, "([a-z]+) of ([a-z]+)")
+  expect_identical(s, stringr::str_extract_all(shopping_list, "([a-z]+) of ([a-z]+)"))
+
+  s_notfixed <- str_extract_all(shopping_list, "\\d")
+  expect_identical(s_notfixed, stringr::str_extract_all(shopping_list, "\\d"))
+
+  s_fixed <- str_extract_all(shopping_list, "\\d", fixed = TRUE)
+  expect_identical(s_fixed, stringr::str_extract_all(shopping_list, stringr::fixed("\\d")))
+
+  s <- str_extract_all(shopping_list, "[a-z]+")
+  expect_identical(s, stringr::str_extract_all(shopping_list, "[a-z]+"))
 })
 
 test_that("str_detect() works", {

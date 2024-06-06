@@ -25,25 +25,6 @@ str_squish <- function(string, fixed = FALSE) {
   return(string)
 }
 
-
-str_extract <- function(string, pattern, fixed = FALSE) {
-  result <- sapply(string, function(x) {
-    # Adjust the pattern if fixed is TRUE
-    if (fixed) {
-      # Escape special characters to treat them as literal in regex
-      pattern <- gsub("([][{}()+*^$.|\\\\?])", "\\\\\\1", pattern)
-    }
-    match_pos <- regexpr(pattern = pattern, text = x, perl = TRUE)
-    if (match_pos > 0) {
-      regmatches(x, match_pos)
-    } else {
-      NA_character_
-    }
-  }, USE.NAMES = FALSE)
-
-  return(result)
-}
-
 str_remove <- function (string, pattern, fixed = FALSE) {
   sub (x = string, pattern = pattern, replacement = "", fixed = fixed)
 }
@@ -53,11 +34,15 @@ str_remove_all <- function(string, pattern, fixed = FALSE) {
 }
 
 str_extract <- function(string, pattern, fixed = FALSE) {
-  ifelse(
-    str_detect(string, pattern, fixed = fixed),
-    regmatches(x = string, m = regexpr(pattern = pattern, text = string, fixed = fixed)),
-    NA_character_
-  )
+  res <- rep(NA_character_, length.out = length(string))
+  res[str_detect(string, pattern, fixed = fixed)] <-
+    regmatches(x = string, m = regexpr(pattern = pattern, text = string, fixed = fixed))
+
+  res
+}
+
+str_extract_all <- function(string, pattern, fixed = FALSE) {
+  regmatches(x = string, m = gregexpr(pattern = pattern, text = string, fixed = fixed))
 }
 
 str_detect <- function(string, pattern, fixed = FALSE) {
