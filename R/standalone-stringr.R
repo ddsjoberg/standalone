@@ -19,9 +19,9 @@ str_trim <- function(string, side = c("both", "left", "right")) {
   trimws(x = string, which = side, whitespace = "[ \t\r\n]")
 }
 
-str_squish <- function(string, fixed = FALSE, perl = perl) {
-  string <- gsub("\\s+", " ", string, perl = !fixed)  # Replace multiple white spaces with a single white space
-  string <- gsub("^\\s+|\\s+$", "", string, perl= !fixed)  # Trim leading and trailing white spaces
+str_squish <- function(string, fixed = FALSE, perl = !fixed) {
+  string <- gsub("\\s+", " ", string, perl = perl)  # Replace multiple white spaces with a single white space
+  string <- gsub("^\\s+|\\s+$", "", string, perl = perl)  # Trim leading and trailing white spaces
   return(string)
 }
 
