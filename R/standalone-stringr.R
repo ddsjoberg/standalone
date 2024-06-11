@@ -20,41 +20,41 @@ str_trim <- function(string, side = c("both", "left", "right")) {
 }
 
 str_squish <- function(string, fixed = FALSE) {
-  string <- gsub("\\s+", " ", string)  # Replace multiple white spaces with a single white space
-  string <- gsub("^\\s+|\\s+$", "", string)  # Trim leading and trailing white spaces
+  string <- gsub("\\s+", " ", string, perl = !fixed)  # Replace multiple white spaces with a single white space
+  string <- gsub("^\\s+|\\s+$", "", string, perl= !fixed)  # Trim leading and trailing white spaces
   return(string)
 }
 
 str_remove <- function (string, pattern, fixed = FALSE) {
-  sub (x = string, pattern = pattern, replacement = "", fixed = fixed)
+  sub (x = string, pattern = pattern, replacement = "", fixed = fixed, perl = !fixed)
 }
 
 str_remove_all <- function(string, pattern, fixed = FALSE) {
-  gsub(x = string, pattern = pattern, replacement = "", fixed = fixed)
+  gsub(x = string, pattern = pattern, replacement = "", fixed = fixed, perl = !fixed)
 }
 
 str_extract <- function(string, pattern, fixed = FALSE) {
   res <- rep(NA_character_, length.out = length(string))
   res[str_detect(string, pattern, fixed = fixed)] <-
-    regmatches(x = string, m = regexpr(pattern = pattern, text = string, fixed = fixed))
+    regmatches(x = string, m = regexpr(pattern = pattern, text = string, fixed = fixed, perl = !fixed))
 
   res
 }
 
 str_extract_all <- function(string, pattern, fixed = FALSE) {
-  regmatches(x = string, m = gregexpr(pattern = pattern, text = string, fixed = fixed))
+  regmatches(x = string, m = gregexpr(pattern = pattern, text = string, fixed = fixed, perl = !fixed))
 }
 
 str_detect <- function(string, pattern, fixed = FALSE) {
-  grepl(pattern = pattern, x = string, fixed = fixed)
+  grepl(pattern = pattern, x = string, fixed = fixed, perl = !fixed)
 }
 
 str_replace <- function(string, pattern, replacement, fixed = FALSE){
-  sub(x = string, pattern = pattern, replacement = replacement, fixed = fixed)
+  sub(x = string, pattern = pattern, replacement = replacement, fixed = fixed, perl = !fixed)
 }
 
 str_replace_all <- function (string, pattern, replacement, fixed = FALSE){
-  gsub(x = string, pattern = pattern, replacement = replacement, fixed = fixed)
+  gsub(x = string, pattern = pattern, replacement = replacement, fixed = fixed, perl = !fixed)
 }
 
 word <- function(string, start, end = start, sep = " ", fixed = TRUE) {
@@ -63,7 +63,7 @@ word <- function(string, start, end = start, sep = " ", fixed = TRUE) {
     return(sapply(string, word, start, end, sep, fixed, USE.NAMES = FALSE))
   }
 
-  words <- unlist(strsplit(string, split = sep, fixed = fixed))
+  words <- unlist(strsplit(string, split = sep, fixed = fixed, perl = !fixed))
   words <- words[words != ""]  # Remove empty strings
 
   # Adjust negative indices
@@ -118,6 +118,10 @@ str_pad <- function(string, width, side = c("left", "right", "both"), pad = " ",
   }
 
   return(padded_string)
+}
+
+str_split <- function(string, pattern, fixed = FALSE){
+  strsplit(string, split = pattern, fixed = fixed, perl = !fixed)
 }
 
 # nocov end

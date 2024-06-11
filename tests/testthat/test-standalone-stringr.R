@@ -56,6 +56,9 @@ test_that("str_remove_all() works", {
 
   s <- str_remove_all(c("one.1", "two..2", "three...3"), ".")
   expect_identical(s, stringr::str_remove_all(c("one.1", "two..2", "three...3"), "."))
+
+  s <- str_remove_all("This is a test string\nwith multiple\nlines", pattern = "\\n(?!\\\\)")
+  expect_identical(s, stringr::str_remove_all("This is a test string\nwith multiple\nlines", pattern = "\\n(?!\\\\)"))
 })
 
 test_that("str_extract() works", {
@@ -157,6 +160,9 @@ test_that("str_replace() works", {
 
   s <- str_replace(fruits, "([aeiou])", "\\1\\1")
   expect_identical(s, stringr::str_replace(fruits, "([aeiou])", "\\1\\1"))
+
+  s <- str_replace("This is a test string\nwith multiple\nlines", pattern = "\\n(?!\\\\)", replacement = "")
+  expect_identical(s, stringr::str_replace("This is a test string\nwith multiple\nlines", pattern = "\\n(?!\\\\)", replacement = ""))
 })
 
 test_that("str_replace_all() works", {
@@ -172,6 +178,9 @@ test_that("str_replace_all() works", {
 
   s <- str_replace_all(fruits, "[aeiou]", "-")
   expect_identical(s, stringr::str_replace_all(fruits, "[aeiou]", "-"))
+
+  s <- str_replace_all("This is a test string\nwith multiple\nlines", pattern = "\\n(?!\\\\)", replacement = "")
+  expect_identical(s, stringr::str_replace_all("This is a test string\nwith multiple\nlines", pattern = "\\n(?!\\\\)", replacement = ""))
 })
 
 test_that("str_sub() works", {
@@ -223,4 +232,18 @@ test_that("word() works", {
 
   s <- word(sentences, 2, -1)
   expect_identical(s, stringr::word(sentences, 2, -1))
+})
+
+test_that("str_split() works", {
+  fruits <- c(
+    "apples and oranges and pears and bananas",
+    "pineapples and mangos and guavas"
+  )
+
+  s <- str_split(fruits, " and ")
+  expect_identical(s, stringr::str_split(fruits, " and "))
+
+  s <- str_split(fruits, " and ", simplify = TRUE)
+
+  expect_identical(s, stringr::str_split(fruits, " and "))
 })
