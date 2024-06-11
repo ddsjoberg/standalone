@@ -120,8 +120,18 @@ str_pad <- function(string, width, side = c("left", "right", "both"), pad = " ",
   return(padded_string)
 }
 
-str_split <- function(string, pattern, fixed = FALSE){
-  strsplit(string, split = pattern, fixed = fixed, perl = !fixed)
+str_split <- function(string, pattern, n = Inf, fixed = FALSE) {
+  if (n == Inf) {
+    return(strsplit(string, split = pattern, fixed = fixed, perl = !fixed))
+  } else {
+    parts <- strsplit(string, split = pattern, fixed = fixed, perl = !fixed)
+    lapply(parts, function(x) {
+      if (length(x) > n) {
+        x <- c(x[1:(n-1)], paste(x[n:length(x)], collapse = pattern))
+      }
+      return(x)
+    })
+  }
 }
 
 # nocov end
