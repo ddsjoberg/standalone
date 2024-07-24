@@ -198,4 +198,20 @@ test_that("check functions work", {
   expect_silent(myfunc(sample(c("a", "b"), size = 10, replace = TRUE)))
   expect_snapshot(myfunc(letters), error = TRUE)
 
+  # check_integerish()
+  myfunc <- function(x) {
+    set_cli_abort_call()
+    check_integerish(x)
+  }
+  expect_silent(myfunc(c(1, 2, 6)))
+  expect_snapshot(myfunc(pi), error = TRUE)
+
+  # check_scalar_integerish()
+  myfunc <- function(x) {
+    set_cli_abort_call()
+    check_scalar_integerish(x)
+  }
+  expect_silent(myfunc(1))
+  expect_snapshot(myfunc(pi), error = TRUE)
+
 })
