@@ -1,27 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>http://www.danieldsjoberg.com/standalone/404.html</loc>
-  </url>
-  <url>
-    <loc>http://www.danieldsjoberg.com/standalone/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>http://www.danieldsjoberg.com/standalone/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>http://www.danieldsjoberg.com/standalone/authors.html</loc>
-  </url>
-  <url>
-    <loc>http://www.danieldsjoberg.com/standalone/index.html</loc>
-  </url>
-  <url>
-    <loc>http://www.danieldsjoberg.com/standalone/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>http://www.danieldsjoberg.com/standalone/reference/lst_scripts.html</loc>
-  </url>
-  <url>
-    <loc>http://www.danieldsjoberg.com/standalone/reference/standalone-package.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>http://www.danieldsjoberg.com/standalone/404.html</loc></url>
+<url><loc>http://www.danieldsjoberg.com/standalone/LICENSE-text.html</loc></url>
+<url><loc>http://www.danieldsjoberg.com/standalone/LICENSE.html</loc></url>
+<url><loc>http://www.danieldsjoberg.com/standalone/authors.html</loc></url>
+<url><loc>http://www.danieldsjoberg.com/standalone/index.html</loc></url>
+<url><loc>http://www.danieldsjoberg.com/standalone/reference/index.html</loc></url>
+<url><loc>http://www.danieldsjoberg.com/standalone/reference/lst_scripts.html</loc></url>
+<url><loc>http://www.danieldsjoberg.com/standalone/reference/standalone-package.html</loc></url>
 </urlset>
+
