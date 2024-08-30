@@ -122,7 +122,7 @@
 ---
 
     Code
-      myfunc(my_iris, "Species")
+      myfunc(my_iris)
     Condition
       Error in `myfunc()`:
       ! Factors with NA levels are not allowed, which are present in column "Species".

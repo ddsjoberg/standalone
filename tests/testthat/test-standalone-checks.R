@@ -215,15 +215,15 @@ test_that("check functions work", {
   expect_snapshot(myfunc(pi), error = TRUE)
 
   # check_na_factor_levels()
-  myfunc <- function(x, variables){
+  myfunc <- function(x){
     set_cli_abort_call()
-    check_na_factor_levels(x, variables)
+    check_na_factor_levels(x)
   }
   my_iris <- iris
   my_iris[c(4,7,10,15), "Species"] <- NA
   my_iris$Species <- factor(my_iris$Species, exclude = NULL)
 
-  expect_silent(myfunc(my_iris, "Petal.Width"))
-  expect_snapshot(myfunc(my_iris, "Species"), error = TRUE)
+  expect_silent(myfunc(iris))
+  expect_snapshot(myfunc(my_iris), error = TRUE)
 
 })
