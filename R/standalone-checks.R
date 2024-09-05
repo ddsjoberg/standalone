@@ -543,5 +543,34 @@ check_na_factor_levels <- function(x,
   invisible(x)
 }
 
+#' Check is Numeric
+#'
+#' @inheritParams check_class
+#' @keywords internal
+#' @noRd
+check_numeric <- function(x,
+                          allow_empty = FALSE,
+                          message =
+                            ifelse(
+                              allow_empty,
+                              "The {.arg {arg_name}} argument must be numeric or empty.",
+                              "The {.arg {arg_name}} argument must be numeric."
+                            ),
+                          arg_name = rlang::caller_arg(x),
+                          class = "check_numeric",
+                          call = get_cli_abort_call(),
+                          envir = rlang::current_env()) {
+  # if empty, skip test
+  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
+    return(invisible(x))
+  }
+
+  if (!is.numeric(x)) {
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call, .envir = envir)
+  }
+
+  invisible(x)
+}
+
 # nocov end
 # styler: on
