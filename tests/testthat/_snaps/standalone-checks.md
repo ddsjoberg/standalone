@@ -127,3 +127,11 @@
       Error in `myfunc()`:
       ! Factors with NA levels are not allowed, which are present in column "Species".
 
+---
+
+    Code
+      myfunc("a")
+    Condition
+      Error in `myfunc()`:
+      ! The `x` argument must be numeric.
+

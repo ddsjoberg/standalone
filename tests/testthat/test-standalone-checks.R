@@ -226,4 +226,12 @@ test_that("check functions work", {
   expect_silent(myfunc(iris))
   expect_snapshot(myfunc(my_iris), error = TRUE)
 
+  # check_numeric()
+  myfunc <- function(x) {
+    set_cli_abort_call()
+    check_numeric(x)
+  }
+  expect_silent(myfunc(c(1, 2.45, 6L, TRUE)))
+  expect_silent(myfunc(0L))
+  expect_snapshot(myfunc("a"), error = TRUE)
 })
