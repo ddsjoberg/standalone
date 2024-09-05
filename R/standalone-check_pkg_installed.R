@@ -61,7 +61,8 @@ NULL
 #' @keywords internal
 #' @noRd
 check_pkg_installed <- function(pkg,
-                                ref = "cards") {
+                                ref = "cards",
+                                call = get_cli_abort_call()) {
   # get min version data -------------------------------------------------------
   df_pkg_min_version <-
     get_min_version_required(pkg = pkg, ref = ref)
