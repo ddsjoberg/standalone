@@ -100,12 +100,12 @@ is_pkg_installed <- function(pkg,
 #' @inheritParams check_pkg_installed
 #' @keywords internal
 #' @noRd
-get_pkg_dependencies <- function(ref = "cards", lib.loc = NULL) {
-  if (rlang::is_empty(ref)) {
+get_pkg_dependencies <- function(pkg = "cards", lib.loc = NULL) {
+  if (rlang::is_empty(pkg)) {
     return(.empty_pkg_deps_df())
   }
 
-  description <- utils::packageDescription(ref, lib.loc = lib.loc) |> suppressWarnings()
+  description <- utils::packageDescription(pkg, lib.loc = lib.loc) |> suppressWarnings()
   if (identical(description, NA)) {
     return(.empty_pkg_deps_df())
   }
