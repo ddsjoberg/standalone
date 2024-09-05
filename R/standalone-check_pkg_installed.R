@@ -61,16 +61,10 @@ NULL
 #' @keywords internal
 #' @noRd
 check_pkg_installed <- function(pkg,
-                                ref = "cards",
-                                call = get_cli_abort_call()) {
-  # check inputs ---------------------------------------------------------------
-  check_not_missing(pkg)
-  check_class(pkg, cls = "character")
-  check_string(ref, allow_empty = TRUE)
-
+                                ref = "cards") {
   # get min version data -------------------------------------------------------
   df_pkg_min_version <-
-    get_min_version_required(pkg = pkg, ref = ref, call = call)
+    get_min_version_required(pkg = pkg, ref = ref)
 
   # prompt user to install package ---------------------------------------------
   rlang::check_installed(
@@ -87,16 +81,10 @@ check_pkg_installed <- function(pkg,
 #' @keywords internal
 #' @noRd
 is_pkg_installed <- function(pkg,
-                             ref = "cards",
-                             call = get_cli_abort_call()) {
-  # check inputs ---------------------------------------------------------------
-  check_not_missing(pkg)
-  check_class(pkg, cls = "character")
-  check_string(ref, allow_empty = TRUE)
-
+                             ref = "cards") {
   # get min version data -------------------------------------------------------
   df_pkg_min_version <-
-    get_min_version_required(pkg = pkg, ref = ref, call = call)
+    get_min_version_required(pkg = pkg, ref = ref)
 
   # check installation TRUE/FALSE ----------------------------------------------
   rlang::is_installed(
@@ -111,9 +99,7 @@ is_pkg_installed <- function(pkg,
 #' @inheritParams check_pkg_installed
 #' @keywords internal
 #' @noRd
-get_pkg_dependencies <- function(ref = "cards", lib.loc = NULL, call = get_cli_abort_call()) {
-  check_string(ref, allow_empty = TRUE, call = call)
-
+get_pkg_dependencies <- function(ref = "cards", lib.loc = NULL) {
   if (rlang::is_empty(ref)) {
     return(.empty_pkg_deps_df())
   }
@@ -170,12 +156,7 @@ get_pkg_dependencies <- function(ref = "cards", lib.loc = NULL, call = get_cli_a
 #' @inheritParams check_pkg_installed
 #' @keywords internal
 #' @noRd
-get_min_version_required <- function(pkg, ref = "cards",
-                                     lib.loc = NULL, call = get_cli_abort_call()) {
-  check_not_missing(pkg, call = call)
-  check_class(pkg, cls = "character", call = call)
-  check_string(ref, allow_empty = TRUE, call = call)
-
+get_min_version_required <- function(pkg, ref = "cards", lib.loc = NULL) {
   # if no package reference, return a df with just the pkg names
   if (rlang::is_empty(ref)) {
     return(
