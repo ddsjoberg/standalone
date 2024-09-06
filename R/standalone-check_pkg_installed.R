@@ -29,7 +29,6 @@
 #'   dependencies of a specific package.
 #'
 #' - `get_min_version_required()` will return, if any, the minimum version of `pkg` required by `ref`.
-#'   of `pkg` required by `ref`.
 #'
 #' @param pkg (`character`)\cr
 #'   vector of package names to check.
@@ -37,7 +36,6 @@
 #'   frame for error messaging. Default is [get_cli_abort_call()].
 #' @param ref (`string`)\cr
 #'   name of the package the function will search for a minimum required version from.
-#'   in which the current environment or function exists will be used.
 #' @param lib.loc (`path`)\cr
 #'   location of `R` library trees to search through, see [utils::packageDescription()].
 #'
@@ -74,6 +72,8 @@ NULL
 check_pkg_installed <- function(pkg,
                                 ref = packageName(),
                                 call = get_cli_abort_call()) {
+  if (!is.character(ref) && !is.null(ref)) cli::cli_abort("{.arg ref} must be a string.")
+
   # get min version data -------------------------------------------------------
   df_pkg_min_version <-
     get_min_version_required(pkg = pkg, ref = ref)
@@ -94,6 +94,8 @@ check_pkg_installed <- function(pkg,
 #' @noRd
 is_pkg_installed <- function(pkg,
                              ref = packageName()) {
+  if (!is.character(ref) && !is.null(ref)) cli::cli_abort("{.arg ref} must be a string.")
+
   # get min version data -------------------------------------------------------
   df_pkg_min_version <-
     get_min_version_required(pkg = pkg, ref = ref)
@@ -116,6 +118,8 @@ is_pkg_installed <- function(pkg,
 #'
 #' @noRd
 get_pkg_dependencies <- function(pkg = packageName(), lib.loc = NULL) {
+  if (!is.character(pkg) && !is.null(pkg)) cli::cli_abort("{.arg pkg} must be a string.")
+
   if (rlang::is_empty(pkg)) {
     return(.empty_pkg_deps_df())
   }
@@ -173,6 +177,8 @@ get_pkg_dependencies <- function(pkg = packageName(), lib.loc = NULL) {
 #' @keywords internal
 #' @noRd
 get_min_version_required <- function(pkg, ref = packageName(), lib.loc = NULL) {
+  if (!is.character(ref) && !is.null(ref)) cli::cli_abort("{.arg ref} must be a string.")
+
   # if no package reference, return a df with just the pkg names
   if (rlang::is_empty(ref)) {
     return(
