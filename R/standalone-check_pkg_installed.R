@@ -36,7 +36,8 @@
 #' @param call (`environment`)\cr
 #'   frame for error messaging. Default is [get_cli_abort_call()].
 #' @param ref (`string`)\cr
-#'   name of the package the function will search for a minimum required version from.
+#'   name of the package the function will search for a minimum required version from. If `packageName()`, the package
+#'   in which the current environment or function exists will be used.
 #' @param lib.loc (`path`)\cr
 #'   location of `R` library trees to search through, see [utils::packageDescription()].
 #'
@@ -99,6 +100,11 @@ is_pkg_installed <- function(pkg,
 
 #' @inheritParams check_pkg_installed
 #' @keywords internal
+#'
+#' @param pkg (`string`)\cr
+#'   name of the package the function will search for a minimum required version from. If `packageName()`, the package
+#'   in which the current environment or function exists will be used.
+#'
 #' @noRd
 get_pkg_dependencies <- function(pkg = packageName(), lib.loc = NULL) {
   if (rlang::is_empty(pkg)) {
