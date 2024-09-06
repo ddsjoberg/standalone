@@ -28,7 +28,7 @@
 #' - `get_pkg_dependencies()` returns a tibble with all
 #'   dependencies of a specific package.
 #'
-#' - `get_min_version_required()` will return, if any, the minimum version
+#' - `get_min_version_required()` will return, if any, the minimum version of `pkg` required by `ref`.
 #'   of `pkg` required by `ref`.
 #'
 #' @param pkg (`character`)\cr
@@ -36,10 +36,20 @@
 #' @param call (`environment`)\cr
 #'   frame for error messaging. Default is [get_cli_abort_call()].
 #' @param ref (`string`)\cr
-#'   name of the package the function will search for a minimum required version from. If `packageName()`, the package
+#'   name of the package the function will search for a minimum required version from.
 #'   in which the current environment or function exists will be used.
 #' @param lib.loc (`path`)\cr
 #'   location of `R` library trees to search through, see [utils::packageDescription()].
+#'
+#' @details
+#' The `ref` argument (`pkg` in `get_pkg_dependencies`) uses `packageName()` as a default, which returns the package in
+#' which the current environment or function is run from. The current environment is determined via `parent.frame()`.
+#'
+#' If, for example, `get_min_version_required("dplyr", ref = packageName())` is run within a `cards` function, and this
+#' function is then called within a function of the `cardx` package, the minimum version returned by the
+#' `get_min_version_required` call will return the version required by the `cards` package. If run within a test file,
+#' `packageName()` returns the package of the current test. Within Roxygen `@examplesIf` calls, `packageName()` will
+#' returns the package of the current example.
 #'
 #' @return `is_pkg_installed()` and `check_pkg_installed()` returns a logical or error,
 #' `get_min_version_required()` returns a data frame with the minimum version required,
@@ -102,8 +112,7 @@ is_pkg_installed <- function(pkg,
 #' @keywords internal
 #'
 #' @param pkg (`string`)\cr
-#'   name of the package the function will search for a minimum required version from. If `packageName()`, the package
-#'   in which the current environment or function exists will be used.
+#'   name of the package the function will search for dependencies from.
 #'
 #' @noRd
 get_pkg_dependencies <- function(pkg = packageName(), lib.loc = NULL) {
