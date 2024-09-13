@@ -524,14 +524,14 @@ check_scalar_integerish <- function(x,
 #' @inheritParams check_class
 #' @keywords internal
 #' @noRd
-check_na_factor_levels <- function(x,
-                                   message =
-                                     "Factors with {.val {NA}} levels are not allowed,
-                                      which are present in column {.val {variable}}.",
-                                   arg_name = rlang::caller_arg(x),
-                                   class = "na_factor_levels",
-                                   call = get_cli_abort_call(),
-                                   envir = rlang::current_env()) {
+check_no_na_factor_levels <- function(x,
+                                      message =
+                                        "Factors with {.val {NA}} levels are not allowed,
+                                         which are present in column {.val {variable}}.",
+                                      arg_name = rlang::caller_arg(x),
+                                      class = "na_factor_levels",
+                                      call = get_cli_abort_call(),
+                                      envir = rlang::current_env()) {
   check_data_frame(x, arg_name = arg_name, class = class, call = call, envir = envir)
 
   for (variable in names(x)) {

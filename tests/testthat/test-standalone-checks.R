@@ -214,10 +214,10 @@ test_that("check functions work", {
   expect_silent(myfunc(1))
   expect_snapshot(myfunc(pi), error = TRUE)
 
-  # check_na_factor_levels()
+  # check_no_na_factor_levels()
   myfunc <- function(x){
     set_cli_abort_call()
-    check_na_factor_levels(x)
+    check_no_na_factor_levels(x)
   }
   my_iris <- iris
   my_iris[c(4,7,10,15), "Species"] <- NA
