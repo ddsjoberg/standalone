@@ -543,6 +543,33 @@ check_no_na_factor_levels <- function(x,
   invisible(x)
 }
 
+#' Check for levels attribute exists for factor
+#'
+#' @param x (`data.frame`)\cr
+#'   a data frame
+#' @inheritParams check_class
+#' @keywords internal
+#' @noRd
+check_factor_has_levels <- function(x,
+                                    message =
+                                      "Factors with empty {.val levels} attribute are not allowed,
+                                       which was identified in column {.val {variable}}.",
+                                    arg_name = rlang::caller_arg(x),
+                                    class = "na_factor_levels",
+                                    call = get_cli_abort_call(),
+                                    envir = rlang::current_env()) {
+  check_data_frame(x, arg_name = arg_name, class = class, call = call, envir = envir)
+
+  for (variable in names(x)) {
+    if (is.factor(x[[variable]]) && rlang::is_empty(levels(x[[variable]]))) {
+      cli::cli_abort(message = message, class = c(class, "standalone-checks"), call = call, .envir = envir)
+    }
+  }
+
+  invisible(x)
+}
+
+
 #' Check is Numeric
 #'
 #' @inheritParams check_class

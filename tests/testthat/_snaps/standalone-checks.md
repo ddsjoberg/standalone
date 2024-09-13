@@ -130,6 +130,14 @@
 ---
 
     Code
+      myfunc(my_iris)
+    Condition
+      Error in `myfunc()`:
+      ! Factors with empty "levels" attribute are not allowed, which was identified in column "bad_fct_col".
+
+---
+
+    Code
       myfunc("a")
     Condition
       Error in `myfunc()`:
