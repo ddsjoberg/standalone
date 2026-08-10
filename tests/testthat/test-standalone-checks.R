@@ -18,7 +18,8 @@ test_that("check functions work", {
   expect_snapshot(myfunc(1), error = TRUE)
 
   # check_data_frame()
-  expect_silent(check_data_frame(data.frame()))
+  expect_silent(check_data_frame(data.frame(a = 1)))
+  expect_silent(check_data_frame(data.frame(), allow_empty = TRUE))
 
   expect_error(
     check_data_frame("mystring"),
@@ -245,4 +246,44 @@ test_that("check functions work", {
   expect_silent(myfunc(c(1, 2.45, 6L, TRUE)))
   expect_silent(myfunc(0L))
   expect_snapshot(myfunc("a"), error = TRUE)
+
+  # check_identical_length
+  expect_silent(check_identical_length(letters, letters))
+  expect_snapshot(check_identical_length(letters[1], letters), error = TRUE)
+})
+
+test_that("check functions error on empty input when allow_empty = FALSE", {
+  # empty input must error by default (allow_empty = FALSE) and pass when allowed
+  expect_error(check_class(character(0), "character"))
+  expect_silent(check_class(character(0), "character", allow_empty = TRUE))
+
+  expect_error(check_data_frame(data.frame()))
+  expect_silent(check_data_frame(data.frame(), allow_empty = TRUE))
+
+  expect_error(check_logical(logical(0)))
+  expect_silent(check_logical(logical(0), allow_empty = TRUE))
+
+  expect_error(check_range(numeric(0), c(0, 1)))
+  expect_silent(check_range(numeric(0), c(0, 1), allow_empty = TRUE))
+
+  expect_error(check_binary(integer(0)))
+  expect_silent(check_binary(integer(0), allow_empty = TRUE))
+
+  expect_error(check_integerish(integer(0)))
+  expect_silent(check_integerish(integer(0), allow_empty = TRUE))
+
+  expect_error(check_scalar_integerish(integer(0)))
+  expect_silent(check_scalar_integerish(integer(0), allow_empty = TRUE))
+
+  expect_error(check_length(character(0), length = 1))
+  expect_silent(check_length(character(0), length = 1, allow_empty = TRUE))
+
+  expect_error(check_numeric(numeric(0)))
+  expect_silent(check_numeric(numeric(0), allow_empty = TRUE))
+
+  expect_error(check_formula_list_selector(list()))
+  expect_silent(check_formula_list_selector(list(), allow_empty = TRUE))
+
+  # empty string is not empty input and must still pass check_string()
+  expect_silent(check_string(""))
 })

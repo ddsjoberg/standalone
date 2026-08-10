@@ -1,4 +1,21 @@
-url: http://www.danieldsjoberg.com/standalone/
-template:
-  bootstrap: 5
+---
+url: https://insightsengineering.github.io/standalone/
 
+template:
+  package: nesttemplate
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+    github:
+      icon: fa-github
+      href: https://github.com/insightsengineering/standalone
+
+# development:
+#   mode: auto
+#   version_label: default
+
+authors:
+  Daniel D. Sjoberg:
+    href: "http://www.danieldsjoberg.com/"

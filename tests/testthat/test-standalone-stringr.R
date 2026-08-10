@@ -207,6 +207,33 @@ test_that("str_sub() works", {
   expect_identical(s, stringr::str_sub(hw, -1))
 })
 
+test_that("str_sub() supports vectorized start/end like stringr::str_sub()", {
+  # vectorized start/end against a single string (previously errored)
+  expect_identical(
+    str_sub("abcdefgh", c(1, 3, 5)),
+    stringr::str_sub("abcdefgh", c(1, 3, 5))
+  )
+  expect_identical(
+    str_sub("abcdefgh", 1, c(2, 4, 6)),
+    stringr::str_sub("abcdefgh", 1, c(2, 4, 6))
+  )
+
+  # vectorized string with vectorized indices
+  expect_identical(
+    str_sub(c("hello", "world"), c(1, 2), c(3, 4)),
+    stringr::str_sub(c("hello", "world"), c(1, 2), c(3, 4))
+  )
+
+  # scalar start recycled across a string vector
+  expect_identical(
+    str_sub(c("hello", "world"), 2),
+    stringr::str_sub(c("hello", "world"), 2)
+  )
+
+  # empty input
+  expect_identical(str_sub(character(0), 1, 2), stringr::str_sub(character(0), 1, 2))
+})
+
 test_that("str_sub_all() works", {
   fruits <- c("one apple", "two pears", "three bananas")
 
@@ -226,14 +253,52 @@ test_that("str_sub_all() works", {
 })
 
 test_that("str_pad() works", {
-  s <-  str_pad("hadley", 30, "left")
+  s <- str_pad("hadley", 30, "left")
   expect_identical(s, stringr::str_pad("hadley", 30, "left"))
 
   s <- str_pad("hadley", 30, "right")
-  expect_identical(s, stringr::str_pad("hadley", 30, "right"),)
+  expect_identical(s, stringr::str_pad("hadley", 30, "right"), )
 
   s <- str_pad("hadley", 30, "both")
   expect_identical(s, stringr::str_pad("hadley", 30, "both"))
+})
+
+test_that("str_pad() matches stringr::str_pad with escape characters", {
+  s <- "\"**Primary System Organ Class**  \\n    **Reported Term for the Adverse Event**\""
+
+  padded_string <- str_pad(s, 82, pad = " ", side = "right")
+  stringr_string <- stringr::str_pad(s, 82, pad = " ", side = "right")
+
+  expect_identical(padded_string, stringr_string)
+})
+
+test_that("str_pad() handles edge cases like stringr::str_pad()", {
+  # width smaller than the string is a no-op (does not error)
+  expect_identical(str_pad("abcdef", 3), stringr::str_pad("abcdef", 3))
+
+  # vectorized width with a scalar string returns a vector, not a matrix
+  expect_identical(str_pad("ab", c(3, 5)), stringr::str_pad("ab", c(3, 5)))
+
+  # vectorized string and width together
+  expect_identical(
+    str_pad(c("a", "bb"), c(3, 4)),
+    stringr::str_pad(c("a", "bb"), c(3, 4))
+  )
+
+  # NA inputs are preserved (not turned into the string "NA")
+  expect_identical(
+    str_pad(c("a", NA, "bb"), 4),
+    stringr::str_pad(c("a", NA, "bb"), 4)
+  )
+
+  # empty input returns an empty character vector
+  expect_identical(str_pad(character(0), 3), stringr::str_pad(character(0), 3))
+
+  # vectorized pad character
+  expect_identical(
+    str_pad(c("a", "b"), 3, pad = c("-", "*")),
+    stringr::str_pad(c("a", "b"), 3, pad = c("-", "*"))
+  )
 })
 
 test_that("word() works", {
@@ -244,6 +309,25 @@ test_that("word() works", {
 
   s <- word(sentences, 2, -1)
   expect_identical(s, stringr::word(sentences, 2, -1))
+})
+
+test_that("word() handles edge cases like stringr::word()", {
+  # NA input returns NA_character_ (does not error)
+  expect_identical(word(NA, 1), stringr::word(NA, 1))
+  expect_identical(word(c("a b", NA), 1), stringr::word(c("a b", NA), 1))
+
+  # empty string yields an empty word
+  expect_identical(word("", 1), stringr::word("", 1))
+
+  # leading separators and consecutive separators keep empty segments
+  expect_identical(word("  a b", 1), stringr::word("  a b", 1))
+  expect_identical(word("a,,b", 2, sep = ","), stringr::word("a,,b", 2, sep = ","))
+
+  # out-of-range index returns NA
+  expect_identical(word("a b", 5), stringr::word("a b", 5))
+
+  # default start of 1
+  expect_identical(word("one two", end = 1), stringr::word("one two", end = 1))
 })
 
 test_that("str_split() works", {
@@ -260,4 +344,38 @@ test_that("str_split() works", {
 
   s <- str_split("This is a test string\nwith multiple\nlines", pattern = "\\n(?!\\\\)")
   expect_identical(s, stringr::str_split("This is a test string\nwith multiple\nlines", pattern = "\\n(?!\\\\)"))
+})
+
+test_that("str_split() with finite n keeps the original tail for regex patterns", {
+  # the final piece must keep the original separators, not re-join with the
+  # literal regex pattern
+  expect_identical(
+    str_split("aXXbXXc", "X+", n = 2),
+    stringr::str_split("aXXbXXc", "X+", n = 2)
+  )
+
+  # n larger than the number of pieces returns all pieces
+  expect_identical(str_split("a,b", ",", n = 5), stringr::str_split("a,b", ",", n = 5))
+
+  # n = 1 returns the whole string unsplit
+  expect_identical(str_split("a,b,c", ",", n = 1), stringr::str_split("a,b,c", ",", n = 1))
+
+  # vectorized input with finite n
+  expect_identical(
+    str_split(c("a,b,c", "d,e,f"), ",", n = 2),
+    stringr::str_split(c("a,b,c", "d,e,f"), ",", n = 2)
+  )
+})
+
+test_that("str_extract() and str_remove_all() replacement works for package version identification", {
+  package_version <- "2.0.3"
+
+  s <- as.character(ifelse(regexpr("[>=<]+", package_version) > 0,
+              regmatches(package_version, regexpr("[>=<]+", package_version)),
+              NA))
+  expect_identical(s, stringr::str_extract(package_version, pattern = "[>=<]+"))
+
+  s <- gsub(pattern = "[\\(\\) >=<]", replacement = "", x = package_version)
+  expect_identical(s, stringr::str_remove_all(package_version, "[\\(\\) >=<]"))
+
 })

@@ -6,6 +6,7 @@ lst_scripts <-
     "standalone-checks" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-checks.R",
     "standalone-standalone-cli_call_env" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-standalone-cli_call_env.R",
     "standalone-forcats" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-forcats.R",
+    "standalone-round5" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-round5.R",
     "standalone-stringr" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-stringr.R",
     "standalone-tibble" = "https://raw.githubusercontent.com/ddsjoberg/standalone/main/R/standalone-tibble.R",
 

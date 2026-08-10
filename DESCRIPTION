@@ -1,12 +1,14 @@
 Package: standalone
-Title: What the Package Does (One Line, Title Case)
+Title: Package Housing Helper Functions
 Version: 0.0.0.9000
 Authors@R: 
     person("Daniel D.", "Sjoberg", , "danield.sjoberg@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-0862-2018"))
-Description: What the package does (one paragraph).
+Description: Standalone shims for functions from packages such as
+    'forcats', 'stringr', etc.
 License: MIT + file LICENSE
-URL: http://www.danieldsjoberg.com/standalone/
+URL: https://github.com/insightsengineering/standalone/,
+    https://insightsengineering.github.io/standalone
 Depends: 
     R (>= 2.10)
 Imports: 
@@ -15,13 +17,18 @@ Imports:
     rlang,
     tidyr
 Suggests:
-    testthat (>= 3.2.0),
-    usethis,
     forcats,
-    stringr
+    spelling (>= 2.2.0),
+    stringr,
+    testthat (>= 3.2.0),
+    tibble,
+    usethis
+Config/Needs/check: hms
+Config/Needs/website: rmarkdown, insightsengineering/nesttemplate
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Encoding: UTF-8
+Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

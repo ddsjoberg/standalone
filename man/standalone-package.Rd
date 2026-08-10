@@ -4,14 +4,15 @@
 \name{standalone-package}
 \alias{standalone}
 \alias{standalone-package}
-\title{standalone: What the Package Does (One Line, Title Case)}
+\title{standalone: Package Housing Helper Functions}
 \description{
-What the package does (one paragraph).
+Standalone shims for functions from packages such as 'forcats', 'stringr', etc.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://www.danieldsjoberg.com/standalone/}
+  \item \url{https://github.com/insightsengineering/standalone/}
+  \item \url{https://insightsengineering.github.io/standalone}
 }
 
 }

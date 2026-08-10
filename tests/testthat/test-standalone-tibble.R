@@ -38,3 +38,24 @@ test_that("rownames_to_column() works", {
   expect_identical(names(data), c("nms", "a"))
   expect_identical(data[[1]], letters[1:3])
 })
+
+test_that("rownames_to_column() resets row names like tibble", {
+  data <- data.frame(a = 1:3, row.names = letters[1:3])
+  expect_identical(
+    rownames_to_column(data, var = "nms"),
+    tibble::rownames_to_column(data, var = "nms")
+  )
+  expect_identical(
+    rownames_to_column(data),
+    tibble::rownames_to_column(data)
+  )
+})
+
+test_that("enframe() handles NULL and name = NULL like tibble", {
+  expect_identical(enframe(NULL), tibble::enframe(NULL))
+  expect_identical(enframe(1:3, name = NULL), tibble::enframe(1:3, name = NULL))
+  expect_identical(
+    enframe(c(a = 5, b = 7), name = NULL),
+    tibble::enframe(c(a = 5, b = 7), name = NULL)
+  )
+})
