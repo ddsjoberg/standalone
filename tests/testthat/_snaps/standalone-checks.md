@@ -109,7 +109,7 @@
       myfunc(pi)
     Condition
       Error in `myfunc()`:
-      ! The `x` argument must an integer vector.
+      ! The `x` argument must be an integer vector.
 
 ---
 
@@ -117,7 +117,7 @@
       myfunc(pi)
     Condition
       Error in `myfunc()`:
-      ! The `x` argument must an scalar integer.
+      ! The `x` argument must be a scalar integer.
 
 ---
 

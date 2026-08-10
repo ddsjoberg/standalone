@@ -1,7 +1,7 @@
 # ---
 # repo: insightsengineering/standalone
 # file: standalone-checks.R
-# last-updated: 2025-05-08
+# last-updated: 2026-07-01
 # license: https://unlicense.org
 # dependencies: standalone-cli_call_env.R
 # imports: [rlang, cli]
@@ -11,6 +11,12 @@
 # passed by users to functions in packages.
 #
 # ## Changelog
+#
+# 2026-07-01
+#   - `check_*()` functions now error on empty input when `allow_empty = FALSE`
+#     (previously empty input silently passed class/type checks) (#30)
+#   - `check_scalar_integerish()` failures now use the `check_scalar_integerish`
+#     condition class (previously `check_integerish`) (#30)
 #
 # 2025-05-08
 #   - Added `check_identical()` and `check_identical_length()`
@@ -57,9 +63,12 @@ check_class <- function(x,
                         class = "check_class",
                         call = get_cli_abort_call(),
                         envir = rlang::current_env()) {
-  # if empty, skip test
-  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible(x))
+  # if empty: return invisibly when allowed, otherwise error
+  if (rlang::is_empty(x)) {
+    if (isTRUE(allow_empty)) {
+      return(invisible(x))
+    }
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call, .envir = envir)
   }
 
   if (!inherits(x, cls)) {
@@ -221,9 +230,12 @@ check_length <- function(x,
                          class = "check_length",
                          call = get_cli_abort_call(),
                          envir = rlang::current_env()) {
-  # if empty, skip test
-  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible(x))
+  # if empty: return invisibly when allowed, otherwise error
+  if (rlang::is_empty(x)) {
+    if (isTRUE(allow_empty)) {
+      return(invisible(x))
+    }
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call, .envir = envir)
   }
 
   # check length
@@ -303,9 +315,12 @@ check_range <- function(x,
                         class = "check_range",
                         call = get_cli_abort_call(),
                         envir = rlang::current_env()) {
-  # if empty, skip test
-  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible(x))
+  # if empty: return invisibly when allowed, otherwise error
+  if (rlang::is_empty(x)) {
+    if (isTRUE(allow_empty)) {
+      return(invisible(x))
+    }
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call, .envir = envir)
   }
 
   print_error <- FALSE
@@ -396,9 +411,12 @@ check_binary <- function(x,
                          class = "check_binary",
                          call = get_cli_abort_call(),
                          envir = rlang::current_env()) {
-  # if empty, skip test
-  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible(x))
+  # if empty: return invisibly when allowed, otherwise error
+  if (rlang::is_empty(x)) {
+    if (isTRUE(allow_empty)) {
+      return(invisible(x))
+    }
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call, .envir = envir)
   }
 
   # first check x is either logical or numeric
@@ -441,9 +459,12 @@ check_formula_list_selector <- function(x,
                                         class = "check_formula_list_selector",
                                         call = get_cli_abort_call(),
                                         envir = rlang::current_env()) {
-  # if empty, skip test
-  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible(x))
+  # if empty: return invisibly when allowed, otherwise error
+  if (rlang::is_empty(x)) {
+    if (isTRUE(allow_empty)) {
+      return(invisible(x))
+    }
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call, .envir = envir)
   }
 
   # first check the general structure; must be a list or formula
@@ -474,16 +495,19 @@ check_integerish <- function(x,
                              message =
                                ifelse(
                                  allow_empty,
-                                 "The {.arg {arg_name}} argument must an integer vector or empty.",
-                                 "The {.arg {arg_name}} argument must an integer vector."
+                                 "The {.arg {arg_name}} argument must be an integer vector or empty.",
+                                 "The {.arg {arg_name}} argument must be an integer vector."
                                ),
                              arg_name = rlang::caller_arg(x),
                              class = "check_integerish",
                              call = get_cli_abort_call(),
                              envir = rlang::current_env()) {
-  # if empty, skip test
-  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible(x))
+  # if empty: return invisibly when allowed, otherwise error
+  if (rlang::is_empty(x)) {
+    if (isTRUE(allow_empty)) {
+      return(invisible(x))
+    }
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call, .envir = envir)
   }
 
   if (!rlang::is_integerish(x)) {
@@ -503,16 +527,19 @@ check_scalar_integerish <- function(x,
                                     message =
                                       ifelse(
                                         allow_empty,
-                                        "The {.arg {arg_name}} argument must an scalar integer or empty.",
-                                        "The {.arg {arg_name}} argument must an scalar integer."
+                                        "The {.arg {arg_name}} argument must be a scalar integer or empty.",
+                                        "The {.arg {arg_name}} argument must be a scalar integer."
                                       ),
                                     arg_name = rlang::caller_arg(x),
-                                    class = "check_integerish",
+                                    class = "check_scalar_integerish",
                                     call = get_cli_abort_call(),
                                     envir = rlang::current_env()) {
-  # if empty, skip test
-  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible(x))
+  # if empty: return invisibly when allowed, otherwise error
+  if (rlang::is_empty(x)) {
+    if (isTRUE(allow_empty)) {
+      return(invisible(x))
+    }
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call, .envir = envir)
   }
 
   if (!rlang::is_scalar_integerish(x)) {
@@ -593,9 +620,12 @@ check_numeric <- function(x,
                           class = "check_numeric",
                           call = get_cli_abort_call(),
                           envir = rlang::current_env()) {
-  # if empty, skip test
-  if (isTRUE(allow_empty) && rlang::is_empty(x)) {
-    return(invisible(x))
+  # if empty: return invisibly when allowed, otherwise error
+  if (rlang::is_empty(x)) {
+    if (isTRUE(allow_empty)) {
+      return(invisible(x))
+    }
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call, .envir = envir)
   }
 
   if (!is.numeric(x)) {
