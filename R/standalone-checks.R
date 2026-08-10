@@ -12,6 +12,9 @@
 #
 # ## Changelog
 #
+# 2026-08-10
+#   - Updated `check_scalar()` to return an error for lists of length 1.
+#
 # 2026-07-01
 #   - `check_*()` functions now error on empty input when `allow_empty = FALSE`
 #     (previously empty input silently passed class/type checks) (#30)
@@ -20,6 +23,7 @@
 #
 # 2025-05-08
 #   - Added `check_identical()` and `check_identical_length()`
+#
 # 2025-04-27
 #   - Added `check_named()`
 
@@ -256,18 +260,24 @@ check_scalar <- function(x,
                          message =
                            ifelse(
                              allow_empty,
-                             "The {.arg {arg_name}} argument must be length {.val {1}} or empty.",
-                             "The {.arg {arg_name}} argument must be length {.val {1}}."
+                             "The {.arg {arg_name}} argument must be a vector of length {.val {1}} or empty.",
+                             "The {.arg {arg_name}} argument must be a vector of length {.val {1}}."
                            ),
                          arg_name = rlang::caller_arg(x),
                          class = "check_scalar",
                          call = get_cli_abort_call(),
                          envir = rlang::current_env()) {
-  check_length(
-    x = x, length = 1L, message = message,
-    allow_empty = allow_empty, arg_name = arg_name,
-    class = class, call = call, envir = envir
-  )
+  # if empty: return invisibly when allowed, otherwise error
+  if (rlang::is_empty(x)) {
+    if (isTRUE(allow_empty)) {
+      return(invisible(x))
+    }
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call, .envir = envir)
+  }
+
+  if (length(x) != 1L || is.list(x)) {
+    cli::cli_abort(message, class = c(class, "standalone-checks"), call = call, .envir = envir)
+  }
 }
 
 #' Check Number of Levels

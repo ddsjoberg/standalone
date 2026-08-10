@@ -60,7 +60,7 @@
       myfunc(c(TRUE, FALSE))
     Condition
       Error in `myfunc()`:
-      ! The `x` argument must be length 1.
+      ! The `x` argument must be a vector of length 1.
 
 ---
 

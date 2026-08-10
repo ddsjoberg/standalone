@@ -106,7 +106,13 @@ test_that("check functions work", {
 
   expect_error(
     check_scalar(c(1, 10)),
-    "The `c(1, 10)` argument must be length 1.",
+    "The `c(1, 10)` argument must be a vector of length 1.",
+    fixed = TRUE
+  )
+
+  expect_error(
+    check_scalar(list(1)),
+    "The `list(1)` argument must be a vector of length 1.",
     fixed = TRUE
   )
 
